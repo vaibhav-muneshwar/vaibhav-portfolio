@@ -4,48 +4,108 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vaibhav Muneshwar | Embedded Systems Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #0f172a;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
       color: #e2e8f0;
     }
+
     header {
-      background: #020617;
-      padding: 20px;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
     }
-    header h1 { margin: 0; }
+
+    header h1 { font-size: 22px; }
+
     nav a {
-      margin: 0 15px;
+      margin-left: 20px;
       color: #38bdf8;
       text-decoration: none;
+      transition: 0.3s;
     }
-    section {
-      padding: 40px;
-      max-width: 1000px;
-      margin: auto;
+
+    nav a:hover { color: white; }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 80px 50px;
+      flex-wrap: wrap;
     }
-    .card {
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 10px;
+
+    .hero-text {
+      max-width: 500px;
+    }
+
+    .hero-text h2 {
+      font-size: 36px;
       margin-bottom: 20px;
     }
-    h2 { color: #38bdf8; }
+
+    .hero-text p {
+      margin-bottom: 20px;
+      color: #cbd5f5;
+    }
+
+    .hero img {
+      width: 250px;
+      border-radius: 50%;
+      border: 4px solid #38bdf8;
+      box-shadow: 0 0 30px rgba(56,189,248,0.5);
+    }
+
+    section {
+      padding: 60px 50px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      color: #38bdf8;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      padding: 20px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
     footer {
       text-align: center;
       padding: 20px;
-      background: #020617;
+      background: rgba(0,0,0,0.5);
     }
+
   </style>
 </head>
 <body>
 
 <header>
   <h1>Vaibhav Muneshwar</h1>
-  <p>Embedded Systems Engineer | AI | Raspberry Pi | MATLAB</p>
   <nav>
     <a href="#about">About</a>
     <a href="#projects">Projects</a>
@@ -54,40 +114,52 @@
   </nav>
 </header>
 
+<section class="hero">
+  <div class="hero-text">
+    <h2>Embedded Systems Engineer</h2>
+    <p>Building intelligent embedded solutions using AI, Raspberry Pi, and real-world system design. Focused on agriculture, automation, and impactful innovation.</p>
+  </div>
+  
+  <!-- Replace profile.jpg with your image file -->
+  <img src="profile.jpg" alt="Profile Photo">
+</section>
+
 <section id="about">
   <h2>About Me</h2>
   <div class="card">
-    <p>I am an Embedded Systems Engineer with strong expertise in Raspberry Pi, MATLAB, and AI-based solutions. I specialize in building real-world systems combining hardware and software for impactful applications in agriculture and automation.</p>
+    <p>I am an Embedded Systems Engineer specializing in AI-driven solutions using Raspberry Pi, MATLAB, and microcontrollers. I build real-time systems that solve practical problems in agriculture and automation.</p>
   </div>
 </section>
 
 <section id="projects">
   <h2>Projects</h2>
+  <div class="cards">
 
-  <div class="card">
-    <h3>JeevaTraksha: Embedded AI for Multi-Crop Disease Diagnosis</h3>
-    <p>AI-powered plant disease detection system using Raspberry Pi 5 and MATLAB with 92.5% accuracy and real-time performance.</p>
+    <div class="card">
+      <h3>🌱 JeevaTraksha</h3>
+      <p>AI-based multi-crop disease detection system with 92.5% accuracy using Raspberry Pi 5 and MATLAB.</p>
+    </div>
+
+    <div class="card">
+      <h3>☀️ Solar Panel Cleaning</h3>
+      <p>Automated cleaning system to improve solar efficiency using embedded control.</p>
+    </div>
+
+    <div class="card">
+      <h3>🤖 AI Rover Navigation</h3>
+      <p>Autonomous rover with obstacle detection and terrain analysis.</p>
+    </div>
+
   </div>
-
-  <div class="card">
-    <h3>Solar Panel Cleaning Machine</h3>
-    <p>Automated system using Arduino and DC motors to improve solar efficiency.</p>
-  </div>
-
-  <div class="card">
-    <h3>AI-Based Rover Navigation</h3>
-    <p>Autonomous navigation system with obstacle detection and terrain analysis.</p>
-  </div>
-
 </section>
 
 <section id="skills">
   <h2>Skills</h2>
-  <div class="card">
-    <p><strong>Embedded Systems:</strong> STM32, Raspberry Pi, Arduino</p>
-    <p><strong>Programming:</strong> C, C++, Python</p>
-    <p><strong>Tools:</strong> MATLAB, KiCad, Linux</p>
-    <p><strong>Technologies:</strong> AI, Image Processing, IoT</p>
+  <div class="cards">
+    <div class="card">Embedded Systems (STM32, Raspberry Pi)</div>
+    <div class="card">C, C++, Python</div>
+    <div class="card">MATLAB, Linux, KiCad</div>
+    <div class="card">AI, Image Processing, IoT</div>
   </div>
 </section>
 
