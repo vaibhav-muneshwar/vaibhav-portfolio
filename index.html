@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vaibhav Muneshwar | R&D System Engineer</title>
+<meta name="description" content="Vaibhav Muneshwar - R&D System Engineer specializing in embedded systems, firmware, edge AI, and industrial IoT solutions.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -15,6 +16,16 @@
     --accent-color: #2563eb;
     --accent-hover: #1d4ed8;
     --border-color: #e5e7eb;
+  }
+
+  [data-theme="dark"] {
+    --bg-color: #0f172a;
+    --surface-color: #1e2937;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --accent-color: #60a5fa;
+    --accent-hover: #3b82f6;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,19 +47,30 @@
   /* --- NAVIGATION --- */
   header {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 24px 5%; background: rgba(250, 250, 250, 0.8);
+    padding: 24px 5%; background: rgba(250, 250, 250, 0.85);
     backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color);
     position: sticky; top: 0; z-index: 1000;
+  }
+
+  [data-theme="dark"] header {
+    background: rgba(15, 23, 42, 0.85);
   }
 
   .logo { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-primary); text-decoration: none; }
   .logo span { color: var(--accent-color); }
 
+  nav { display: flex; align-items: center; gap: 32px; }
   nav a {
-    margin-left: 32px; color: var(--text-secondary); text-decoration: none;
+    color: var(--text-secondary); text-decoration: none;
     font-size: 14px; font-weight: 500; transition: color 0.2s;
   }
   nav a:hover { color: var(--text-primary); }
+
+  #theme-toggle {
+    background: none; border: none; font-size: 20px; cursor: pointer;
+    padding: 4px; border-radius: 50%; transition: transform 0.2s;
+  }
+  #theme-toggle:hover { transform: rotate(20deg); }
 
   section { padding: 100px 5%; max-width: 1200px; margin: auto; position: relative; z-index: 1; }
 
@@ -65,7 +87,7 @@
 
   .hero h1 {
     font-size: clamp(40px, 6vw, 72px); font-weight: 700; line-height: 1.05;
-    letter-spacing: -2px; margin-bottom: 24px; max-width: 800px; color: var(--text-primary);
+    letter-spacing: -2px; margin-bottom: 24px; max-width: 800px;
   }
 
   .hero p {
@@ -104,14 +126,14 @@
 
   .card {
     background: var(--surface-color); border: 1px solid var(--border-color);
-    border-radius: 16px; padding: 40px; transition: all 0.3s ease;
-    position: relative; overflow: hidden;
+    border-radius: 16px; padding: 40px; transition: all 0.4s ease;
+    position: relative; overflow: hidden; opacity: 0; transform: translateY(30px);
   }
   
   .card:hover {
     border-color: var(--accent-color);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.04);
-    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    transform: translateY(-6px);
   }
 
   .card-icon {
@@ -123,17 +145,26 @@
   .card h3 { font-size: 22px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.5px; }
   .card p { color: var(--text-secondary); font-size: 15px; margin-bottom: 24px; }
 
-  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
   .tag {
     background: var(--bg-color); border: 1px solid var(--border-color);
     padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
     color: var(--text-secondary);
   }
 
+  .view-details {
+    color: var(--accent-color); font-weight: 500; text-decoration: none;
+    font-size: 14px; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .view-details:hover { gap: 10px; }
+
   /* --- SKILLS & CONTACT ROW --- */
   .info-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
   
-  .info-box { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 16px; padding: 40px; }
+  .info-box {
+    background: var(--surface-color); border: 1px solid var(--border-color);
+    border-radius: 16px; padding: 40px; opacity: 0; transform: translateY(30px);
+  }
   .info-box h3 { font-size: 20px; font-weight: 600; margin-bottom: 24px; }
 
   .skill-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
@@ -148,18 +179,38 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 16px; background: var(--bg-color); border-radius: 8px;
     text-decoration: none; color: var(--text-primary); font-weight: 500;
-    transition: background 0.2s; cursor: pointer; border: 1px solid transparent;
+    transition: all 0.2s; cursor: pointer; border: 1px solid transparent;
   }
-  .contact-row:hover { background: #fff; border-color: var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+  .contact-row:hover { background: var(--surface-color); border-color: var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+
+  /* --- MODAL --- */
+  .modal {
+    display: none; position: fixed; z-index: 2000; left: 0; top: 0;
+    width: 100%; height: 100%; background: rgba(0,0,0,0.6);
+    align-items: center; justify-content: center;
+  }
+  .modal-content {
+    background: var(--surface-color); max-width: 600px; width: 90%;
+    border-radius: 16px; padding: 40px; position: relative;
+    max-height: 90vh; overflow-y: auto;
+  }
+  .close-modal {
+    position: absolute; top: 20px; right: 24px; font-size: 28px;
+    cursor: pointer; color: var(--text-secondary);
+  }
+  .modal h3 { margin-bottom: 16px; font-size: 26px; }
 
   footer {
-    text-align: center; padding: 40px; color: var(--text-secondary);
-    font-size: 14px; border-top: 1px solid var(--border-color); margin-top: 60px;
+    text-align: center; padding: 60px 20px 40px; color: var(--text-secondary);
+    font-size: 14px; border-top: 1px solid var(--border-color);
   }
 
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     .info-row { grid-template-columns: 1fr; }
-    .hero { min-height: 60vh; padding-top: 60px; }
+    .hero { min-height: 60vh; padding-top: 80px; }
+    #mesh-canvas { display: none; } /* Disable heavy canvas on mobile for performance */
+    header { padding: 20px 5%; }
+    nav { gap: 20px; }
   }
 </style>
 </head>
@@ -173,6 +224,7 @@
   <nav>
     <a href="#work">Work</a>
     <a href="#about">Capabilities</a>
+    <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
   </nav>
 </header>
 
@@ -184,6 +236,7 @@
   <div class="btn-group">
     <a href="#work" class="btn btn-primary">Explore Projects</a>
     <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+    <a href="YOUR_RESUME_LINK.pdf" target="_blank" class="btn btn-secondary">Download CV</a>
   </div>
 </section>
 
@@ -194,40 +247,44 @@
   </div>
 
   <div class="grid">
-    <div class="card">
+    <div class="card" data-project="1">
       <div class="card-icon">🌱</div>
       <h3>JeevaTraksha Edge AI</h3>
       <p>Architected an offline, low-cost multi-crop disease diagnosis system. Optimized for sub-1.5 second inference times directly on edge hardware. Shortlisted for the 5G Hackathon.</p>
       <div class="tags">
         <span class="tag">Raspberry Pi</span><span class="tag">MobileNetV2</span><span class="tag">MATLAB</span>
       </div>
+      <a href="#" class="view-details">View Details →</a>
     </div>
 
-    <div class="card">
+    <div class="card" data-project="2">
       <div class="card-icon">🔒</div>
       <h3>Hardware-Backed Security</h3>
       <p>Engineered an IoT dashboard layer emphasizing data integrity. Implemented AES-256-GCM encryption, digital signatures, and secure key generation at the register level.</p>
       <div class="tags">
         <span class="tag">ESP32-S3</span><span class="tag">AES-256</span><span class="tag">C/C++</span>
       </div>
+      <a href="#" class="view-details">View Details →</a>
     </div>
 
-    <div class="card">
+    <div class="card" data-project="3">
       <div class="card-icon">🚗</div>
       <h3>Telemetry & Infotainment</h3>
       <p>Developed a real-time data transmission prototype integrating CAN protocols for high-fidelity vehicular telemetry and processing.</p>
       <div class="tags">
         <span class="tag">ARM Cortex-M4</span><span class="tag">CAN Bus</span><span class="tag">FreeRTOS</span>
       </div>
+      <a href="#" class="view-details">View Details →</a>
     </div>
 
-    <div class="card">
+    <div class="card" data-project="4">
       <div class="card-icon">📡</div>
       <h3>Offline Emergency Logic</h3>
       <p>Conceptualized a transmitter-receiver logic architecture utilizing LoRa networks to autonomously manage traffic signals for emergency vehicle routing.</p>
       <div class="tags">
         <span class="tag">LoRaWAN</span><span class="tag">SPI Integration</span><span class="tag">C</span>
       </div>
+      <a href="#" class="view-details">View Details →</a>
     </div>
   </div>
 </section>
@@ -240,7 +297,7 @@
       <ul class="skill-list">
         <li><span>Firmware</span> FreeRTOS, C/C++</li>
         <li><span>Microcontrollers</span> ARM Cortex-M (STM32), ESP32-S3</li>
-        <li><span>Hardware Integ.</span> Parallel RGB TFT, SPI, I2C, CAN</li>
+        <li><span>Hardware Integration</span> Parallel RGB TFT, SPI, I2C, CAN</li>
         <li><span>Diagnostics</span> Logic Analyzers, Oscilloscopes</li>
         <li><span>Domain Edge</span> Embedded AI, IoT Security</li>
       </ul>
@@ -269,7 +326,7 @@
           <span style="color: var(--accent-color);">↗</span>
         </a>
 
-        <a href="https://github.com/yourusername" target="_blank" class="contact-row">
+        <a href="https://github.com/yourusername" target="_blank" class="contact-row"> <!-- ← UPDATE THIS -->
           <div style="display: flex; align-items: center; gap: 12px;">
             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"></path></svg>
             <span>GitHub Repositories</span>
@@ -286,56 +343,140 @@
   <p>© 2026 Vaibhav Muneshwar. Built with precision.</p>
 </footer>
 
+<!-- PROJECT MODAL -->
+<div id="project-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal()">×</span>
+    <div id="modal-body">
+      <!-- Content injected by JS -->
+    </div>
+  </div>
+</div>
+
 <script>
-  /* --- COPY TO CLIPBOARD LOGIC --- */
+  /* --- COPY EMAIL --- */
   function copyEmail() {
     navigator.clipboard.writeText("vmunehswar5@gmail.com");
     const btnText = document.getElementById("email-text");
     const originalText = btnText.innerText;
-    
     btnText.innerText = "vmunehswar5@gmail.com Copied!";
     btnText.style.color = "var(--accent-color)";
-    
     setTimeout(() => {
       btnText.innerText = originalText;
       btnText.style.color = "inherit";
     }, 3000);
   }
 
-  /* --- INTERACTIVE MESH NETWORK LOGIC --- */
-  // This creates a subtle, elegant particle network that connects near your mouse.
+  /* --- DARK MODE --- */
+  const themeToggle = document.getElementById('theme-toggle');
+  const root = document.documentElement;
+
+  function setTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    setTheme(savedTheme);
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    setTheme('dark');
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme') || 'light';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  /* --- MODAL LOGIC --- */
+  const modal = document.getElementById('project-modal');
+  const modalBody = document.getElementById('modal-body');
+
+  const projectData = {
+    1: {
+      title: "JeevaTraksha Edge AI",
+      content: `<p><strong>Challenge:</strong> Create a low-cost, offline crop disease detection system for Indian farmers.</p>
+                <p><strong>Solution:</strong> Optimized MobileNetV2 model running on Raspberry Pi with sub-1.5s inference. Achieved high accuracy while keeping power consumption minimal.</p>
+                <p><strong>Impact:</strong> Shortlisted for national 5G Hackathon. Demonstrates practical edge AI deployment in agriculture.</p>
+                <p><strong>Tech:</strong> Raspberry Pi • TensorFlow Lite • MobileNetV2 • MATLAB • Python</p>`
+    },
+    2: {
+      title: "Hardware-Backed Security",
+      content: `<p><strong>Focus:</strong> End-to-end data integrity for IoT devices.</p>
+                <p>Implemented AES-256-GCM encryption, digital signatures, and secure boot elements at the hardware register level on ESP32-S3.</p>
+                <p>Ensured protection against common side-channel and replay attacks.</p>`
+    },
+    3: {
+      title: "Telemetry & Infotainment",
+      content: `<p>Real-time CAN bus data acquisition and processing using ARM Cortex-M4 with FreeRTOS.</p>
+                <p>Built a reliable telemetry pipeline suitable for automotive and industrial applications.</p>`
+    },
+    4: {
+      title: "Offline Emergency Logic",
+      content: `<p>LoRaWAN-based autonomous traffic signal control for emergency vehicles in areas with poor connectivity.</p>
+                <p>Designed transmitter-receiver architecture with SPI integration for reliable long-range communication.</p>`
+    }
+  };
+
+  function openModal(projectId) {
+    const data = projectData[projectId];
+    if (!data) return;
+    modalBody.innerHTML = `<h3>${data.title}</h3>${data.content}`;
+    modal.style.display = 'flex';
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+
+  // Attach click listeners to "View Details"
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.classList.contains('view-details') || e.target.closest('.view-details')) {
+        const id = card.getAttribute('data-project');
+        openModal(id);
+      }
+    });
+  });
+
+  // Close modal when clicking outside content
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  /* --- CANVAS MESH (with performance consideration) --- */
   const canvas = document.getElementById("mesh-canvas");
   const ctx = canvas.getContext("2d");
   
-  let particlesArray;
+  let particlesArray = [];
   let mouse = { x: null, y: null, radius: 150 };
 
-  window.addEventListener('mousemove', function(event) {
-    mouse.x = event.x;
-    mouse.y = event.y;
+  window.addEventListener('mousemove', (event) => {
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
   });
 
-  // Keep mouse position accurate when scrolling
-  window.addEventListener('scroll', function() {
+  window.addEventListener('scroll', () => {
     mouse.x = null;
     mouse.y = null;
   });
 
   class Particle {
-    constructor(x, y, directionX, directionY, size, color) {
+    constructor(x, y, directionX, directionY, size) {
       this.x = x; this.y = y;
       this.directionX = directionX; this.directionY = directionY;
-      this.size = size; this.color = color;
+      this.size = size;
     }
     draw() {
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-      ctx.fillStyle = '#cbd5e1'; // subtle gray dots
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = '#cbd5e1';
       ctx.fill();
     }
     update() {
-      if (this.x > canvas.width || this.x < 0) { this.directionX = -this.directionX; }
-      if (this.y > canvas.height || this.y < 0) { this.directionY = -this.directionY; }
+      if (this.x > canvas.width || this.x < 0) this.directionX *= -1;
+      if (this.y > canvas.height || this.y < 0) this.directionY *= -1;
       this.x += this.directionX;
       this.y += this.directionY;
       this.draw();
@@ -344,30 +485,30 @@
 
   function init() {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight * 0.8; // only cover hero section
+    canvas.height = window.innerHeight * 0.8;
     particlesArray = [];
-    let numberOfParticles = (canvas.height * canvas.width) / 12000;
+    const numberOfParticles = Math.min((canvas.height * canvas.width) / 15000, 120); // capped for performance
     
     for (let i = 0; i < numberOfParticles; i++) {
-      let size = (Math.random() * 2) + 1;
-      let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-      let y = (Math.random() * ((innerHeight * 0.8 - size * 2) - (size * 2)) + size * 2);
-      let directionX = (Math.random() * 0.4) - 0.2;
-      let directionY = (Math.random() * 0.4) - 0.2;
-      let color = '#cbd5e1';
-      particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+      const size = (Math.random() * 2) + 1;
+      const x = Math.random() * (canvas.width - size * 2) + size;
+      const y = Math.random() * (canvas.height - size * 2) + size;
+      const directionX = (Math.random() * 0.6) - 0.3;
+      const directionY = (Math.random() * 0.6) - 0.3;
+      particlesArray.push(new Particle(x, y, directionX, directionY, size));
     }
   }
 
   function connect() {
-    let opacityValue = 1;
     for (let a = 0; a < particlesArray.length; a++) {
-      for (let b = a; b < particlesArray.length; b++) {
-        let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
-                       ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-        if (distance < (canvas.width / 10) * (canvas.height / 10)) {
-          opacityValue = 1 - (distance / 15000);
-          ctx.strokeStyle = 'rgba(203, 213, 225,' + opacityValue + ')'; // subtle gray lines
+      for (let b = a + 1; b < particlesArray.length; b++) {  // optimized: a+1 instead of a
+        const dx = particlesArray[a].x - particlesArray[b].x;
+        const dy = particlesArray[a].y - particlesArray[b].y;
+        const distance = dx * dx + dy * dy;
+        
+        if (distance < 12000) {
+          const opacity = 1 - (distance / 15000);
+          ctx.strokeStyle = `rgba(203, 213, 225, ${opacity})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -376,12 +517,13 @@
         }
       }
       
-      // Connect to mouse
-      if(mouse.x != null && mouse.y != null) {
-        let mouseDistance = ((particlesArray[a].x - mouse.x) * (particlesArray[a].x - mouse.x)) + 
-                            ((particlesArray[a].y - mouse.y) * (particlesArray[a].y - mouse.y));
-        if (mouseDistance < 20000) {
-          ctx.strokeStyle = 'rgba(37, 99, 235,' + (1 - mouseDistance/20000) * 0.5 + ')'; // Accent blue lines to cursor
+      // Mouse connection
+      if (mouse.x && mouse.y) {
+        const dx = particlesArray[a].x - mouse.x;
+        const dy = particlesArray[a].y - mouse.y;
+        const distance = dx * dx + dy * dy;
+        if (distance < 25000) {
+          ctx.strokeStyle = `rgba(37, 99, 235, ${0.4 * (1 - distance/25000)})`;
           ctx.beginPath();
           ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
           ctx.lineTo(mouse.x, mouse.y);
@@ -393,21 +535,35 @@
 
   function animate() {
     requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
-    for (let i = 0; i < particlesArray.length; i++) {
-      particlesArray[i].update();
-    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particlesArray.forEach(p => p.update());
     connect();
   }
 
-  window.addEventListener('resize', function() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight * 0.8;
+  window.addEventListener('resize', () => {
     init();
   });
 
-  init();
-  animate();
+  // Start canvas only if not on mobile
+  if (window.innerWidth > 768) {
+    init();
+    animate();
+  }
+
+  /* --- SCROLL FADE-IN ANIMATION --- */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.transition = 'all 0.7s ease';
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.card, .info-box').forEach(el => {
+    observer.observe(el);
+  });
 </script>
 
 </body>
