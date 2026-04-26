@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Vaibhav Muneshwar - R&D System Engineer specializing in embedded systems, RTOS, and hardware-software synchronization.">
 <title>Vaibhav Muneshwar | R&D System Engineer</title>
-<meta name="description" content="Vaibhav Muneshwar - R&D System Engineer specializing in embedded systems, firmware, edge AI, and industrial IoT.">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
+  /* --- THEME VARIABLES --- */
   :root {
     --bg-color: #fafafa;
     --surface-color: #ffffff;
@@ -16,108 +17,151 @@
     --accent-color: #2563eb;
     --accent-hover: #1d4ed8;
     --border-color: #e5e7eb;
-    --success: #10b981;
+    --canvas-dot: #cbd5e1;
+    --canvas-line: rgba(203, 213, 225, 0.5);
+    --system-pill: rgba(0, 0, 0, 0.05);
   }
 
   [data-theme="dark"] {
     --bg-color: #0f172a;
-    --surface-color: #1e2937;
-    --text-primary: #f1f5f9;
+    --surface-color: #1e293b;
+    --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
+    --accent-color: #38bdf8;
+    --accent-hover: #0ea5e9;
     --border-color: #334155;
-    --accent-color: #60a5fa;
-    --accent-hover: #3b82f6;
+    --canvas-dot: #334155;
+    --canvas-line: rgba(51, 65, 85, 0.5);
+    --system-pill: rgba(255, 255, 255, 0.1);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; font-family: 'Inter', sans-serif; }
   
   body {
-    background-color: var(--bg-color);
-    color: var(--text-primary);
-    line-height: 1.6;
-    overflow-x: hidden;
+    background-color: var(--bg-color); color: var(--text-primary);
+    line-height: 1.6; overflow-x: hidden; transition: background-color 0.3s, color 0.3s;
   }
 
-  #mesh-canvas {
-    position: absolute; top: 0; left: 0; width: 100%; height: 80vh;
-    z-index: 0; pointer-events: none;
-  }
+  /* --- UTILITIES & ANIMATIONS --- */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  
+  .mono { font-family: 'Fira Code', monospace; }
 
+  /* --- CANVAS & SYSTEM STATUS --- */
+  #mesh-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 80vh; z-index: 0; pointer-events: none; }
+  
+  .system-status {
+    position: fixed; bottom: 20px; right: 20px; background: var(--surface-color);
+    border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 30px;
+    font-size: 12px; display: flex; align-items: center; gap: 10px; z-index: 900;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); backdrop-filter: blur(5px);
+  }
+  .status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e; }
+
+  /* --- NAVIGATION --- */
   header {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 20px 5%; background: rgba(250, 250, 250, 0.9);
+    padding: 20px 5%; background: color-mix(in srgb, var(--bg-color) 85%, transparent);
     backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color);
-    position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; gap: 12px;
+    position: sticky; top: 0; z-index: 1000;
   }
-
-  [data-theme="dark"] header { background: rgba(15, 23, 42, 0.9); }
-
   .logo { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-primary); text-decoration: none; }
   .logo span { color: var(--accent-color); }
-
-  nav { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-  nav a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; }
+  
+  .nav-controls { display: flex; align-items: center; gap: 24px; }
+  nav a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
   nav a:hover { color: var(--text-primary); }
 
-  #theme-toggle { background: none; border: none; font-size: 22px; cursor: pointer; padding: 6px; }
-
-  section { padding: 80px 5%; max-width: 1200px; margin: auto; position: relative; z-index: 1; }
-
-  .hero { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
-  .tagline { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-color); margin-bottom: 16px; }
-  .hero h1 { font-size: clamp(36px, 7vw, 68px); font-weight: 700; line-height: 1.1; letter-spacing: -2px; margin-bottom: 20px; }
-  .hero p { font-size: clamp(17px, 2.5vw, 21px); color: var(--text-secondary); max-width: 580px; margin-bottom: 32px; }
-
-  .system-status {
-    display: inline-flex; align-items: center; gap: 10px; background: var(--surface-color);
-    border: 1px solid var(--border-color); border-radius: 9999px; padding: 8px 18px;
-    font-size: 13px; color: var(--text-secondary); margin-bottom: 28px;
+  .icon-btn {
+    background: none; border: none; color: var(--text-primary); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; padding: 8px;
+    border-radius: 50%; transition: background 0.2s;
   }
-  .status-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .icon-btn:hover { background: var(--system-pill); }
 
-  .btn-group { display: flex; gap: 14px; flex-wrap: wrap; }
+  section { padding: 100px 5%; max-width: 1200px; margin: auto; position: relative; z-index: 1; }
+
+  /* --- HERO & PHILOSOPHY --- */
+  .hero { display: flex; flex-direction: column; justify-content: center; min-height: 75vh; }
+  .tagline { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-color); margin-bottom: 20px; display: block; }
+  .hero h1 { font-size: clamp(36px, 5vw, 64px); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 24px; max-width: 800px; }
+  .hero p { font-size: clamp(16px, 1.8vw, 20px); color: var(--text-secondary); max-width: 650px; margin-bottom: 40px; font-weight: 400; }
+
   .btn {
-    padding: 13px 26px; border-radius: 8px; font-size: 15px; font-weight: 500;
-    text-decoration: none; transition: all 0.2s; cursor: pointer; border: none;
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px;
+    border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none;
+    transition: all 0.2s; cursor: pointer; border: 1px solid transparent;
   }
-  .btn-primary { background: var(--text-primary); color: #fff; }
-  .btn-primary:hover { background: #000; transform: translateY(-2px); }
-  .btn-secondary {
-    background: var(--surface-color); color: var(--text-primary);
+  .btn-primary { background: var(--text-primary); color: var(--bg-color); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); opacity: 0.9; }
+  .btn-outline { background: transparent; color: var(--text-primary); border-color: var(--border-color); }
+  .btn-outline:hover { border-color: var(--text-primary); transform: translateY(-2px); }
+
+  /* --- TIMELINE --- */
+  .timeline { border-left: 2px solid var(--border-color); padding-left: 30px; margin-top: 40px; position: relative; }
+  .timeline-item { margin-bottom: 40px; position: relative; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -37px; top: 4px; width: 12px; height: 12px;
+    background: var(--surface-color); border: 2px solid var(--accent-color); border-radius: 50%;
+  }
+  .timeline-date { font-size: 13px; color: var(--accent-color); font-weight: 600; font-family: 'Fira Code', monospace; margin-bottom: 4px; }
+  .timeline-title { font-size: 18px; font-weight: 600; color: var(--text-primary); }
+  .timeline-desc { font-size: 15px; color: var(--text-secondary); margin-top: 8px; }
+
+  /* --- PROJECTS GRID --- */
+  .section-header { margin-bottom: 60px; }
+  .section-header h2 { font-size: 32px; font-weight: 700; letter-spacing: -1px; }
+  
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+  .card {
+    background: var(--surface-color); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 32px; transition: all 0.3s ease; display: flex; flex-direction: column;
+  }
+  .card:hover { border-color: var(--accent-color); box-shadow: 0 10px 30px rgba(0,0,0,0.05); transform: translateY(-4px); }
+  .card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+  .card p { color: var(--text-secondary); font-size: 15px; margin-bottom: 24px; flex-grow: 1; }
+  
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .tag { background: var(--system-pill); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 500; font-family: 'Fira Code', monospace; color: var(--text-secondary); }
+
+  /* --- MODAL SYSTEM --- */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 2000;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: auto; }
+  
+  .modal-content {
+    background: var(--surface-color); width: 90%; max-width: 800px;
+    max-height: 90vh; overflow-y: auto; border-radius: 16px; padding: 40px;
+    position: relative; transform: translateY(20px); transition: transform 0.3s;
     border: 1px solid var(--border-color);
   }
-  .btn-secondary:hover { border-color: var(--text-primary); transform: translateY(-2px); }
+  .modal-overlay.active .modal-content { transform: translateY(0); }
+  
+  .modal-close { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: var(--text-secondary); background: none; border: none; }
+  
+  /* Placeholder for Oscilloscope/Board Photos */
+  .visual-proof {
+    width: 100%; height: 250px; background: var(--system-pill);
+    border: 1px dashed var(--border-color); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; margin: 20px 0;
+    color: var(--text-secondary); font-family: 'Fira Code', monospace; font-size: 13px;
+  }
 
-  /* About, Timeline, Skills, etc. styles are kept clean and responsive */
-  .about { background: var(--surface-color); border-radius: 20px; padding: 50px 6%; border: 1px solid var(--border-color); }
-  .about img { max-width: 100%; border-radius: 12px; margin-bottom: 24px; }
+  /* --- FOOTER & CONTACT --- */
+  .contact-block { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px; padding: 40px; text-align: center; }
+  footer { text-align: center; padding: 40px; color: var(--text-secondary); font-size: 14px; border-top: 1px solid var(--border-color); margin-top: 40px; }
 
-  .timeline { position: relative; max-width: 820px; margin: 0 auto; }
-  .timeline::before { content: ''; position: absolute; left: 18px; top: 10px; bottom: 10px; width: 3px; background: var(--border-color); }
-  .timeline-item { position: relative; margin-bottom: 50px; padding-left: 52px; }
-  .timeline-dot { position: absolute; left: 12px; top: 6px; width: 16px; height: 16px; background: var(--accent-color); border: 3px solid var(--surface-color); border-radius: 50%; }
-
-  .skills-container { display: flex; flex-direction: column; gap: 26px; }
-  .skill-bar .skill-label { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 15px; }
-  .progress-track { height: 7px; background: var(--border-color); border-radius: 9999px; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-color), var(--accent-hover)); border-radius: 9999px; width: 0%; transition: width 1.8s ease; }
-
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
-  .card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 16px; padding: 32px; transition: all 0.3s; cursor: pointer; }
-  .card:hover { transform: translateY(-4px); border-color: var(--accent-color); }
-
-  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; z-index: 2000; }
-  .modal-content { background: var(--surface-color); width: 90%; max-width: 660px; border-radius: 20px; padding: 40px; position: relative; max-height: 90vh; overflow-y: auto; }
-
-  @media (max-width: 768px) {
-    #mesh-canvas { display: none !important; }
-    header { padding: 16px 5%; }
+  @media(max-width: 768px) {
+    header { padding: 15px 5%; }
+    .nav-controls nav { display: none; } /* Hide text links on mobile for space */
+    .hero { min-height: 60vh; padding-top: 40px; }
     section { padding: 60px 5%; }
-    .info-row { grid-template-columns: 1fr; }
-    .timeline::before { left: 15px; }
-    .timeline-item { padding-left: 45px; }
   }
 </style>
 </head>
@@ -126,120 +170,316 @@
 
 <canvas id="mesh-canvas"></canvas>
 
+<div class="system-status mono">
+  <div class="status-dot"></div>
+  <span>LOC: PUNE, IN</span>
+  <span style="color: var(--border-color)">|</span>
+  <span id="uptime">UP: 00:00:00</span>
+</div>
+
 <header>
   <a href="#" class="logo">Vaibhav<span>.</span></a>
-  <nav>
-    <a href="#work">Work</a>
-    <a href="#about">About</a>
-    <a href="#timeline">Journey</a>
-    <a href="#contact">Contact</a>
-    <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
-  </nav>
+  <div class="nav-controls">
+    <nav>
+      <a href="#about">Philosophy</a>
+      <a href="#experience">Timeline</a>
+      <a href="#work">Architecture</a>
+    </nav>
+    
+    <button class="icon-btn" id="theme-toggle" aria-label="Toggle Dark Mode">
+      <svg id="moon-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
+      <svg id="sun-icon" style="display:none;" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>
+    </button>
+    
+    <a href="resume.pdf" target="_blank" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;">Resume.pdf</a>
+  </div>
 </header>
 
-<section class="hero">
+<section class="hero fade-in">
   <span class="tagline">R&D System Engineer</span>
   <h1>Delivering robust industrial software solutions.</h1>
-  <p>I specialize in bridging hardware integration with intelligent firmware architectures, moving systems from simulation to solid silicon.</p>
-
-  <div class="system-status">
-    <span class="status-dot"></span>
-    <span>System Online • Uptime 99.8% • Edge Nodes Simulated</span>
-  </div>
-
-  <div class="btn-group">
-    <a href="#work" class="btn btn-primary">Explore Projects</a>
-    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-    <a href="YOUR_RESUME.pdf" target="_blank" class="btn btn-secondary">Download CV</a>
+  <p>Bridging the gap between simulation and silicon. I architect intelligent embedded systems—focusing on RTOS, hardware-software synchronization, and deployable edge computing in harsh environments.</p>
+  
+  <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+    <a href="#work" class="btn btn-primary">View Deployments</a>
+    <a href="https://github.com/muneshwarvaibhav" target="_blank" class="btn btn-outline">
+      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      GitHub
+    </a>
   </div>
 </section>
 
-<section id="about">
-  <div class="about">
-    <img src="https://via.placeholder.com/600x400/2563eb/ffffff?text=Vaibhav+with+Hardware" alt="Vaibhav with embedded hardware" style="width:100%;max-width:420px;">
-    <h2>About My Approach</h2>
-    <p>With a strong foundation in embedded systems...</p>
-    <!-- Add your full about text here from previous version -->
+<section id="experience" class="fade-in">
+  <div class="section-header">
+    <h2>Career & Trajectory</h2>
+    <p>Professional experience and academic foundations.</p>
   </div>
-</section>
-
-<section id="timeline">
-  <div class="section-header"><h2>My Engineering Journey</h2></div>
+  
   <div class="timeline">
-    <!-- Add your timeline items here -->
-    <div class="timeline-item"><div class="timeline-dot"></div><div class="date">2022–2024</div><h3>B.Tech...</h3><p>...</p></div>
-    <!-- more items -->
+    <div class="timeline-item fade-in">
+      <div class="timeline-date">AUG 2025 - PRESENT</div>
+      <div class="timeline-title">R&D System Engineer @ UEPL</div>
+      <div class="timeline-desc">Spearheading embedded firmware development. Focus areas include ARM Cortex-M (STM32) and ESP32-S3 platforms using FreeRTOS. Specializing in hardware integrations like parallel RGB TFT displays (resolving strict RGB565 bit-alignment) and SPI storage modules.</div>
+    </div>
+    
+    <div class="timeline-item fade-in">
+      <div class="timeline-date">JAN 2025 - MAY 2025</div>
+      <div class="timeline-title">Architect: JeevaTraksha Edge AI</div>
+      <div class="timeline-desc">Designed a multi-crop disease detection system built for the Indian agricultural context. Successfully shortlisted for a 5G Hackathon.</div>
+    </div>
+    
+    <div class="timeline-item fade-in">
+      <div class="timeline-date">FEB 2026 | JUN 2024</div>
+      <div class="timeline-title">Academic Qualifications</div>
+      <div class="timeline-desc">Prepared for GATE ECE (Feb 2026). Qualified UGC-NET via NTA (June 2024). Hold an MS in Electronic Science from S.P. Pune University and a BS from Fergusson College.</div>
+    </div>
   </div>
 </section>
 
-<section id="work">
-  <!-- Your project grid here (cards with data-project) -->
-</section>
+<section id="work" class="fade-in">
+  <div class="section-header">
+    <h2>Hardware Deployments</h2>
+    <p>Select case studies in embedded engineering.</p>
+  </div>
 
-<section id="contact">
-  <div class="info-row">
-    <!-- Skills with progress bars + Contact links -->
+  <div class="grid">
+    <div class="card">
+      <h3>🌱 JeevaTraksha (Edge AI)</h3>
+      <p>A low-cost, offline AI-powered system detecting plant leaf diseases for local agriculture. Provides real-time diagnosis in sub-1.5 seconds.</p>
+      <div class="tags"><span class="tag">Raspberry Pi</span><span class="tag">MATLAB</span><span class="tag">MobileNetV2</span></div>
+      <button class="btn btn-outline" style="width: 100%;" onclick="openModal('modal-1')">View Details</button>
+    </div>
+
+    <div class="card">
+      <h3>🔒 Hardware-Backed Security</h3>
+      <p>Engineered a highly secure layer using AES-256-GCM encryption, digital signatures, and secure key generation for an IoT dashboard.</p>
+      <div class="tags"><span class="tag">ESP32-S3</span><span class="tag">AES-256</span><span class="tag">C/C++</span></div>
+      <button class="btn btn-outline" style="width: 100%;" onclick="openModal('modal-2')">View Details</button>
+    </div>
+
+    <div class="card">
+      <h3>📡 LoRa Emergency Transit</h3>
+      <p>Conceptualized an offline transmitter-receiver architecture to autonomously manage and override traffic signals for emergency vehicles.</p>
+      <div class="tags"><span class="tag">LoRaWAN</span><span class="tag">SPI Comm</span><span class="tag">Logic Design</span></div>
+      <button class="btn btn-outline" style="width: 100%;" onclick="openModal('modal-3')">View Details</button>
+    </div>
   </div>
 </section>
 
-<footer><p>© 2026 Vaibhav Muneshwar. Built with precision.</p></footer>
+<section id="contact" class="fade-in">
+  <div class="contact-block">
+    <h2 style="font-size: 28px; margin-bottom: 16px;">Initiate Connection</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 32px; max-width: 500px; margin-inline: auto;">
+      Open to collaborating on robust prototypes, transitioning designs to 2nm chip tech, or solving complex RTOS bottlenecks.
+    </p>
+    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+      <a href="mailto:vmunehswar5@gmail.com" class="btn btn-primary">vmunehswar5@gmail.com</a>
+      <a href="https://www.linkedin.com/in/muneshwarvaibhav" target="_blank" class="btn btn-outline">LinkedIn Profile</a>
+    </div>
+  </div>
+</section>
 
-<!-- Modal -->
-<div id="project-modal" class="modal">
+<footer>
+  <p>© 2026 Vaibhav Muneshwar. Built with precision in Pune.</p>
+</footer>
+
+<div class="modal-overlay" id="modal-1">
   <div class="modal-content">
-    <span class="close-modal" onclick="closeModal()">×</span>
-    <div id="modal-body"></div>
+    <button class="modal-close" onclick="closeModal('modal-1')" aria-label="Close modal">&times;</button>
+    <h2 style="margin-bottom: 10px;">JeevaTraksha: Edge AI Diagnostics</h2>
+    <p class="mono" style="color: var(--accent-color); margin-bottom: 20px;">[ 5G Hackathon Shortlist ]</p>
+    
+    <div class="visual-proof">
+      [ IMG: Raspberry Pi + Camera Rig Setup ]
+    </div>
+    
+    <h4 style="margin: 20px 0 10px;">The Engineering Challenge</h4>
+    <p style="color: var(--text-secondary); margin-bottom: 20px;">Developing an AI model is standard, but deploying it to run entirely offline on low-power hardware for farmers in remote Indian areas requires aggressive optimization. The system leverages MobileNetV2 alongside K-Means and GLCM for precise thresholding, reducing inference latency to ~1.5 seconds.</p>
+    
+    <h4 style="margin: 20px 0 10px;">Quantifiable Impact</h4>
+    <ul style="color: var(--text-secondary); margin-left: 20px; margin-bottom: 20px;">
+      <li>92.5% model accuracy across multiple crop sets (Paddy, Cotton, Tomato).</li>
+      <li>0 dependencies on cloud architecture.</li>
+    </ul>
   </div>
 </div>
 
+<div class="modal-overlay" id="modal-2">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('modal-2')" aria-label="Close modal">&times;</button>
+    <h2 style="margin-bottom: 10px;">Hardware-Backed IoT Security</h2>
+    <p class="mono" style="color: var(--accent-color); margin-bottom: 20px;">[ April 2026 Deployment ]</p>
+    
+    <div class="visual-proof">
+      [ IMG: Logic Analyzer UART/SPI Waveform Capture ]
+    </div>
+    
+    <p style="color: var(--text-secondary); margin-bottom: 20px;">Securing an ESP32-S3 IoT dashboard using hardware-accelerated AES-256-GCM. Implemented secure key generation and digital signatures to ensure absolute data integrity between the node and the dashboard.</p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-3">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('modal-3')" aria-label="Close modal">&times;</button>
+    <h2 style="margin-bottom: 10px;">Offline Emergency Transit Logic</h2>
+    <p class="mono" style="color: var(--accent-color); margin-bottom: 20px;">[ LoRa Comm Architecture ]</p>
+    <div class="visual-proof">[ IMG: LoRa Tx/Rx Node Schematic ]</div>
+    <p style="color: var(--text-secondary); margin-bottom: 20px;">Architected the communication logic for emergency vehicles to interface directly with traffic control nodes over long ranges without internet dependency.</p>
+  </div>
+</div>
+
+
 <script>
-  // === DARK MODE (Fixed & moved to top) ===
-  const root = document.documentElement;
+  /* --- 1. DARK/LIGHT MODE TOGGLE (with localStorage) --- */
   const themeToggle = document.getElementById('theme-toggle');
-
-  function setTheme(theme) {
-    root.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-  }
-
-  // Apply saved or system preference immediately
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    setTheme(savedTheme);
-  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    setTheme('dark');
+  const moonIcon = document.getElementById('moon-icon');
+  const sunIcon = document.getElementById('sun-icon');
+  
+  // Check memory
+  const currentTheme = localStorage.getItem('theme') || 'light';
+  if (currentTheme === 'dark') {
+    document.body.setAttribute('data-theme', 'dark');
+    moonIcon.style.display = 'none';
+    sunIcon.style.display = 'block';
   }
 
   themeToggle.addEventListener('click', () => {
-    const current = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    setTheme(current);
+    let theme = document.body.getAttribute('data-theme');
+    if (theme === 'dark') {
+      document.body.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      moonIcon.style.display = 'block';
+      sunIcon.style.display = 'none';
+    } else {
+      document.body.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      moonIcon.style.display = 'none';
+      sunIcon.style.display = 'block';
+    }
+    // Re-draw canvas colors
+    initCanvas(); 
   });
 
-  // === REST OF YOUR SCRIPT (Canvas, Modal, Animations, etc.) ===
-  // Paste the full canvas + modal + observer code from the previous complete version here.
-  // Make sure the canvas init is wrapped in if (window.innerWidth > 768) { ... }
-
-  // Example quick canvas fallback
-  const canvas = document.getElementById("mesh-canvas");
-  if (canvas && window.innerWidth > 768) {
-    // your init() and animate() functions here
-  }
-
-  // Skill bar animation (on scroll)
+  /* --- 2. SCROLL ANIMATIONS --- */
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.progress-fill').forEach(bar => {
-          bar.style.width = bar.getAttribute('data-width') + '%';
-        });
+        entry.target.classList.add('visible');
       }
     });
-  });
-  document.querySelectorAll('.skills-container').forEach(container => observer.observe(container));
+  }, { threshold: 0.1 });
 
-  // Modal click handling etc.
+  document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+
+  /* --- 3. MODAL LOGIC --- */
+  function openModal(id) {
+    document.getElementById(id).classList.add('active');
+    document.body.style.overflow = 'hidden'; // prevent bg scroll
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+  // Close modal on outside click
+  window.onclick = function(event) {
+    if (event.target.classList.contains('modal-overlay')) {
+      event.target.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  /* --- 4. OPTIMIZED CANVAS MESH --- */
+  const canvas = document.getElementById("mesh-canvas");
+  const ctx = canvas.getContext("2d");
+  let particlesArray = [];
+  let mouse = { x: null, y: null };
+  let animationFrameId;
+
+  window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+  window.addEventListener('scroll', () => { mouse.x = null; mouse.y = null; });
+
+  class Particle {
+    constructor(x, y, dx, dy, size) {
+      this.x = x; this.y = y; this.dx = dx; this.dy = dy; this.size = size;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+      // Use CSS variables for theme consistency
+      ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--canvas-dot').trim() || '#cbd5e1';
+      ctx.fill();
+    }
+    update() {
+      if (this.x > canvas.width || this.x < 0) this.dx = -this.dx;
+      if (this.y > canvas.height || this.y < 0) this.dy = -this.dy;
+      this.x += this.dx; this.y += this.dy;
+      this.draw();
+    }
+  }
+
+  function initCanvas() {
+    // Disable on mobile for performance
+    if(window.innerWidth < 768) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if(animationFrameId) cancelAnimationFrame(animationFrameId);
+      return;
+    }
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight * 0.8;
+    particlesArray = [];
+    let noOfParticles = (canvas.width * canvas.height) / 15000;
+    
+    for (let i = 0; i < noOfParticles; i++) {
+      let size = Math.random() * 2 + 1;
+      let x = Math.random() * (canvas.width - size * 2) + size;
+      let y = Math.random() * (canvas.height - size * 2) + size;
+      let dx = (Math.random() - 0.5) * 0.5;
+      let dy = (Math.random() - 0.5) * 0.5;
+      particlesArray.push(new Particle(x, y, dx, dy, size));
+    }
+  }
+
+  function connectParticles() {
+    let lineColor = getComputedStyle(document.body).getPropertyValue('--canvas-line').trim() || 'rgba(203, 213, 225, 0.5)';
+    
+    for (let a = 0; a < particlesArray.length; a++) {
+      for (let b = a; b < particlesArray.length; b++) {
+        let distance = Math.pow(particlesArray[a].x - particlesArray[b].x, 2) + Math.pow(particlesArray[a].y - particlesArray[b].y, 2);
+        if (distance < 15000) {
+          ctx.strokeStyle = lineColor;
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+          ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animateCanvas() {
+    if(window.innerWidth < 768) return;
+    animationFrameId = requestAnimationFrame(animateCanvas);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particlesArray.forEach(p => p.update());
+    connectParticles();
+  }
+
+  window.addEventListener('resize', () => { initCanvas(); });
+  initCanvas();
+  if(window.innerWidth >= 768) animateCanvas();
+
+  /* --- 5. SYSTEM UPTIME COUNTER --- */
+  let seconds = 0;
+  setInterval(() => {
+    seconds++;
+    const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+    const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+    const s = String(seconds % 60).padStart(2, '0');
+    document.getElementById("uptime").innerText = `UP: ${h}:${m}:${s}`;
+  }, 1000);
+
 </script>
-
 </body>
 </html>
