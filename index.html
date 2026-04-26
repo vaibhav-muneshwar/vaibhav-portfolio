@@ -3,189 +3,316 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vaibhav Muneshwar | Embedded AI Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Vaibhav Muneshwar | R&D System Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Poppins',sans-serif;background:#0f172a;color:#e2e8f0}
+  :root {
+    --bg-main: #050505;
+    --bg-panel: rgba(15, 23, 42, 0.6);
+    --accent-primary: #00ffcc;
+    --accent-secondary: #7000ff;
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --terminal-green: #22c55e;
+  }
 
-header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:15px 30px;background:rgba(2,6,23,0.9);
-  backdrop-filter:blur(10px);position:sticky;top:0;z-index:1000
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  
+  body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(112, 0, 255, 0.08), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(0, 255, 204, 0.08), transparent 25%);
+    background-attachment: fixed;
+    line-height: 1.6;
+  }
 
-header h1{font-size:18px}
+  /* Grid Background Overlay */
+  .grid-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    z-index: -1;
+    pointer-events: none;
+  }
 
-nav a{
-  margin-left:15px;color:#38bdf8;text-decoration:none;font-size:14px;
-  position:relative
-}
-nav a::after{
-  content:'';position:absolute;width:0;height:2px;background:#38bdf8;
-  left:0;bottom:-3px;transition:0.3s
-}
-nav a:hover::after{width:100%}
+  header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 5%; background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: sticky; top: 0; z-index: 1000;
+  }
 
-.hero{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:80px 30px;flex-wrap:wrap
-}
+  header h1 {
+    font-size: 20px; font-weight: 700; letter-spacing: 1px;
+    background: linear-gradient(90deg, var(--accent-primary), #fff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
 
-.hero-text{max-width:550px}
-.hero-text h2{font-size:42px;margin-bottom:10px}
-.hero-text span{color:#38bdf8}
-.hero-text p{color:#94a3b8;margin-bottom:20px}
+  nav a {
+    margin-left: 25px; color: var(--text-muted); text-decoration: none;
+    font-size: 14px; font-weight: 500; transition: color 0.3s;
+  }
+  
+  nav a:hover { color: var(--accent-primary); }
 
-.btn{
-  display:inline-block;padding:10px 20px;border-radius:25px;
-  background:#38bdf8;color:#000;text-decoration:none;font-weight:600;
-  margin-right:10px;transition:0.3s
-}
-.btn:hover{transform:scale(1.05)}
+  section { padding: 100px 5%; max-width: 1200px; margin: auto; }
 
-.hero img{
-  width:230px;border-radius:50%;border:4px solid #38bdf8;
-  box-shadow:0 0 25px rgba(56,189,248,0.6)
-}
+  /* HERO SECTION */
+  .hero {
+    display: flex; align-items: center; justify-content: space-between;
+    min-height: 80vh; gap: 40px; flex-wrap: wrap;
+  }
 
-section{padding:70px 30px;max-width:1100px;margin:auto}
+  .hero-content { flex: 1; min-width: 300px; }
+  
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0, 255, 204, 0.1); border: 1px solid rgba(0, 255, 204, 0.3);
+    color: var(--accent-primary); padding: 6px 14px; border-radius: 20px;
+    font-family: 'Fira Code', monospace; font-size: 12px; margin-bottom: 20px;
+  }
+  
+  .status-badge::before {
+    content: ''; width: 8px; height: 8px; background: var(--accent-primary);
+    border-radius: 50%; box-shadow: 0 0 10px var(--accent-primary);
+    animation: pulse 2s infinite;
+  }
 
-h2{color:#38bdf8;margin-bottom:25px;font-size:28px}
+  .hero h2 { font-size: clamp(40px, 5vw, 65px); line-height: 1.1; margin-bottom: 20px; }
+  .hero h2 span { color: var(--accent-primary); }
+  
+  .hero p {
+    font-size: 18px; color: var(--text-muted); margin-bottom: 35px; max-width: 600px;
+  }
 
-.cards{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px
-}
+  .btn {
+    display: inline-block; padding: 14px 28px; border-radius: 4px;
+    font-family: 'Fira Code', monospace; font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: all 0.3s; cursor: pointer;
+  }
+  
+  .btn-primary {
+    background: var(--accent-primary); color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+  }
+  
+  .btn-primary:hover {
+    box-shadow: 0 0 30px rgba(0, 255, 204, 0.5); transform: translateY(-2px);
+  }
 
-.card{
-  background:rgba(255,255,255,0.05);
-  border-radius:15px;padding:20px;
-  backdrop-filter:blur(10px);
-  transition:0.3s
-}
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.4)
-}
+  .btn-outline {
+    background: transparent; color: var(--text-main);
+    border: 1px solid rgba(255,255,255,0.2); margin-left: 15px;
+  }
+  
+  .btn-outline:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
 
-/* 🔥 FEATURE PROJECT */
-.feature{
-  background:linear-gradient(135deg,#1e293b,#020617);
-  padding:30px;border-radius:20px;
-  box-shadow:0 0 40px rgba(56,189,248,0.2)
-}
+  /* TERMINAL WINDOW (About Me) */
+  .terminal {
+    background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    flex: 1; min-width: 300px; font-family: 'Fira Code', monospace;
+  }
+  
+  .terminal-header {
+    background: #1a1a1a; padding: 10px 15px; display: flex; gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  
+  .terminal-header span {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+  .mac-r { background: #ff5f56; } .mac-y { background: #ffbd2e; } .mac-g { background: #27c93f; }
+  
+  .terminal-body { padding: 25px; font-size: 14px; color: var(--text-muted); }
+  .cmd { color: var(--accent-primary); }
+  .string { color: #ce9178; }
 
-.feature h3{font-size:26px;margin-bottom:10px}
-.badge{
-  display:inline-block;background:#22c55e;color:#000;
-  padding:5px 10px;border-radius:10px;font-size:12px;
-  margin-bottom:15px
-}
+  /* BENTO GRID (Projects) */
+  .section-title {
+    font-size: 32px; margin-bottom: 40px; display: flex; align-items: center; gap: 15px;
+  }
+  .section-title::after {
+    content: ''; height: 1px; flex: 1; background: linear-gradient(90deg, rgba(255,255,255,0.2), transparent);
+  }
 
-footer{text-align:center;padding:20px;background:#020617}
+  .bento-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px; grid-auto-rows: 250px;
+  }
 
-/* Responsive */
-@media(max-width:768px){
-  .hero{flex-direction:column;text-align:center}
-  .hero-text h2{font-size:30px}
-  .hero img{margin-top:20px;width:180px}
-}
+  .bento-card {
+    background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px; padding: 30px; backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  
+  .bento-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
 
+  .bento-card:hover { transform: translateY(-5px); border-color: rgba(0, 255, 204, 0.2); }
+  .bento-card:hover::before { opacity: 1; }
+
+  .card-feature { grid-column: 1 / -1; background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(5, 5, 5, 0.9)); }
+  
+  .bento-card h3 { font-size: 22px; margin-bottom: 10px; color: #fff; }
+  .bento-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 15px; flex-grow: 1; }
+  
+  .tech-stack { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
+  .tech-tag {
+    font-size: 11px; font-family: 'Fira Code', monospace;
+    background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 4px;
+    color: var(--accent-primary);
+  }
+
+  /* SKILLS SECTION */
+  .skills-container {
+    display: flex; flex-wrap: wrap; gap: 15px;
+  }
+  .skill-pill {
+    padding: 12px 24px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.03); font-weight: 500; transition: 0.3s;
+  }
+  .skill-pill:hover {
+    background: rgba(0, 255, 204, 0.1); border-color: var(--accent-primary);
+    color: var(--accent-primary);
+  }
+
+  footer {
+    text-align: center; padding: 40px; border-top: 1px solid rgba(255,255,255,0.05);
+    font-family: 'Fira Code', monospace; font-size: 12px; color: var(--text-muted);
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(0, 255, 204, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 255, 204, 0); }
+  }
+
+  @media(max-width: 768px) {
+    .bento-grid { grid-auto-rows: auto; }
+    .hero { min-height: auto; padding-top: 50px; }
+  }
 </style>
 </head>
 
 <body>
+<div class="grid-overlay"></div>
 
 <header>
-  <h1>Vaibhav Muneshwar</h1>
+  <h1>VM.</h1>
   <nav>
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#skills">Skills</a>
-    <a href="#contact">Contact</a>
+    <a href="#about">SYS_INFO</a>
+    <a href="#projects">PROJECTS</a>
+    <a href="#skills">SKILLS</a>
   </nav>
 </header>
 
 <section class="hero">
-  <div class="hero-text">
-    <h2>Hi, I'm <span>Vaibhav</span> 👋</h2>
-    <p>Embedded AI Engineer building real-time intelligent systems using Raspberry Pi, MATLAB, and advanced image processing.</p>
-    <a href="#projects" class="btn">View Projects</a>
-    <a href="#contact" class="btn">Contact Me</a>
+  <div class="hero-content">
+    <div class="status-badge">SYSTEM_ONLINE // LOCATION: PUNE, IN</div>
+    <h2>Delivering <span>robust</span> industrial software solutions.</h2>
+    <p>I am an R&D System Engineer specializing in bridging complex hardware integration with intelligent firmware architectures.</p>
+    <div>
+      <a href="#projects" class="btn btn-primary">Init. Deploy</a>
+      <a href="#contact" class="btn btn-outline">Contact_Node</a>
+    </div>
   </div>
-  <img src="profile.jpg" alt="Profile">
+
+  <div class="terminal" id="about">
+    <div class="terminal-header">
+      <span class="mac-r"></span><span class="mac-y"></span><span class="mac-g"></span>
+    </div>
+    <div class="terminal-body">
+      <p><span class="cmd">vm@engineering:~$</span> cat profile.txt</p>
+      <br>
+      <p><span class="terminal-green">NAME:</span> Vaibhav Muneshwar</p>
+      <p><span class="terminal-green">ROLE:</span> R&D System Engineer @ UEPL</p>
+      <p><span class="terminal-green">EDU:</span> MS & BS Electronic Science</p>
+      <p><span class="terminal-green">CORE_FOCUS:</span> Hardware-Software synchronization, register-level debugging, and RTOS task management.</p>
+      <br>
+      <p><span class="cmd">vm@engineering:~$</span> ./load_objective.sh</p>
+      <p class="string">"Building deployable, offline, and secure embedded systems. Moving beyond simulation to silicon."</p>
+      <span class="cmd" style="animation: blink 1s infinite">_</span>
+    </div>
+  </div>
 </section>
 
 <section id="projects">
-  <h2>🚀 Featured Project</h2>
-
-  <div class="feature">
-    <h3>🌱 JeevaTraksha: Embedded AI for Multi-Crop Disease Diagnosis</h3>
-    <div class="badge">92.5% Accuracy • Real-Time</div>
-    <p>
-      A low-cost AI-powered system that detects plant leaf diseases using Raspberry Pi 5 and MATLAB. 
-      Designed for farmers, it works completely offline and provides real-time diagnosis in ~1.5 seconds.
-    </p>
-
-    <ul style="margin-top:15px; color:#94a3b8">
-      <li>✔ Multi-crop support (Paddy, Cotton, Tomato, etc.)</li>
-      <li>✔ CNN-based classification (MobileNetV2)</li>
-      <li>✔ Image processing: K-Means, GLCM, Thresholding</li>
-      <li>✔ Deployable on Raspberry Pi (Edge AI)</li>
-    </ul>
-
-    <div style="margin-top:20px">
-      <a href="#" class="btn">GitHub</a>
-      <a href="#" class="btn">Demo</a>
-    </div>
-  </div>
-
-  <h2 style="margin-top:50px">Other Projects</h2>
-  <div class="cards">
-
-    <div class="card">
-      <h3>☀️ Solar Panel Cleaning</h3>
-      <p>Automated system using Arduino and motor control.</p>
+  <h2 class="section-title">Hardware Architecture & Deployments</h2>
+  
+  <div class="bento-grid">
+    <div class="bento-card card-feature">
+      <h3>🌱 JeevaTraksha (5G Hackathon Shortlist)</h3>
+      <p>Embedded AI for multi-crop disease diagnosis. Conceptualized and engineered a low-cost, strictly offline edge system providing sub-1.5 second inference times.</p>
+      <div class="tech-stack">
+        <span class="tech-tag">Raspberry Pi</span>
+        <span class="tech-tag">MATLAB</span>
+        <span class="tech-tag">MobileNetV2</span>
+        <span class="tech-tag">Edge AI</span>
+      </div>
     </div>
 
-    <div class="card">
-      <h3>🤖 AI Rover Navigation</h3>
-      <p>Autonomous navigation with obstacle detection.</p>
+    <div class="bento-card">
+      <h3>🔒 Hardware-Backed IoT Dashboard</h3>
+      <p>Engineered an impenetrable security layer utilizing AES-256-GCM encryption, secure key generation, and digital signatures for data integrity.</p>
+      <div class="tech-stack">
+        <span class="tech-tag">ESP32</span>
+        <span class="tech-tag">AES-256-GCM</span>
+        <span class="tech-tag">C/C++</span>
+      </div>
     </div>
 
+    <div class="bento-card">
+      <h3>🚗 Vehicle Infotainment Prototype</h3>
+      <p>Architected a high-fidelity data transmission system integrating CAN protocols for real-time vehicular telemetry.</p>
+      <div class="tech-stack">
+        <span class="tech-tag">ARM Cortex-M4</span>
+        <span class="tech-tag">CAN Bus</span>
+        <span class="tech-tag">FreeRTOS</span>
+      </div>
+    </div>
+
+    <div class="bento-card">
+      <h3>📡 Offline Emergency Transit Logic</h3>
+      <p>Designed a transmitter-receiver logic architecture utilizing LoRa to autonomously manage traffic signals for emergency vehicle routing.</p>
+      <div class="tech-stack">
+        <span class="tech-tag">LoRaWAN</span>
+        <span class="tech-tag">SPI Interfacing</span>
+        <span class="tech-tag">Logic Design</span>
+      </div>
+    </div>
   </div>
 </section>
 
 <section id="skills">
-  <h2>⚙️ Skills</h2>
-  <div class="cards">
-    <div class="card">Embedded Systems (STM32, Raspberry Pi)</div>
-    <div class="card">C / C++ / Python</div>
-    <div class="card">MATLAB & AI</div>
-    <div class="card">Image Processing & IoT</div>
-  </div>
-</section>
-
-<section id="about">
-  <h2>👨‍💻 About Me</h2>
-  <div class="card">
-    <p>I build intelligent embedded systems combining hardware and AI to solve real-world problems in agriculture, robotics, and automation. My work focuses on deployable solutions, not just simulations.</p>
-  </div>
-</section>
-
-<section id="contact">
-  <h2>📬 Contact</h2>
-  <div class="card">
-    <p>Email: your-email@gmail.com</p>
-    <p>GitHub: github.com/yourusername</p>
-    <p>LinkedIn: linkedin.com/in/yourprofile</p>
+  <h2 class="section-title">Technical Toolchain</h2>
+  <div class="skills-container">
+    <div class="skill-pill">FreeRTOS</div>
+    <div class="skill-pill">ARM Cortex-M (STM32)</div>
+    <div class="skill-pill">ESP32 / ESP-IDF</div>
+    <div class="skill-pill">C / C++</div>
+    <div class="skill-pill">Parallel RGB TFT Mapping</div>
+    <div class="skill-pill">LoRa Comm Protocols</div>
+    <div class="skill-pill">Oscilloscopes & Logic Analyzers</div>
+    <div class="skill-pill">Hardware AES Encryption</div>
   </div>
 </section>
 
 <footer>
-  <p>© 2026 Vaibhav Muneshwar</p>
+  <p>SYSTEM UPTIME: ∞ // © 2026 VAIBHAV MUNESHWAR. ALL SYSTEMS NOMINAL.</p>
 </footer>
 
 </body>
