@@ -4,421 +4,410 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vaibhav Muneshwar | R&D System Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    --bg-main: #050505;
-    --bg-panel: rgba(15, 23, 42, 0.4);
-    --accent-primary: #00ffcc;
-    --accent-secondary: #7000ff;
-    --text-main: #e2e8f0;
-    --text-muted: #94a3b8;
-    --terminal-green: #22c55e;
+    --bg-color: #fafafa;
+    --surface-color: #ffffff;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --accent-color: #2563eb;
+    --accent-hover: #1d4ed8;
+    --border-color: #e5e7eb;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; font-family: 'Inter', sans-serif; }
   
   body {
-    font-family: 'Outfit', sans-serif;
-    background-color: var(--bg-main);
-    color: var(--text-main);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
     overflow-x: hidden;
   }
 
-  /* --- BOOT SEQUENCE --- */
-  #boot-screen {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: #000; z-index: 9999; display: flex; flex-direction: column;
-    justify-content: center; padding: 5%; font-family: 'Fira Code', monospace;
-    color: var(--terminal-green); font-size: 14px;
-    transition: opacity 0.5s ease-out;
-  }
-  .log-line { opacity: 0; margin-bottom: 8px; }
-
-  /* --- BACKGROUND FX --- */
-  .grid-overlay {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background-size: 40px 40px;
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    z-index: -1; pointer-events: none;
+  /* --- INTERACTIVE MESH CANVAS --- */
+  #mesh-canvas {
+    position: absolute; top: 0; left: 0; width: 100%; height: 80vh;
+    z-index: 0; pointer-events: none;
   }
 
+  /* --- NAVIGATION --- */
   header {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 20px 5%; background: rgba(5, 5, 5, 0.8);
-    backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 24px 5%; background: rgba(250, 250, 250, 0.8);
+    backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color);
     position: sticky; top: 0; z-index: 1000;
   }
 
-  header h1 { font-size: 20px; font-weight: 700; color: #fff; }
-  header h1 span { color: var(--accent-primary); }
+  .logo { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-primary); text-decoration: none; }
+  .logo span { color: var(--accent-color); }
 
   nav a {
-    margin-left: 25px; color: var(--text-muted); text-decoration: none;
-    font-size: 13px; font-weight: 600; font-family: 'Fira Code', monospace;
-    transition: color 0.3s;
+    margin-left: 32px; color: var(--text-secondary); text-decoration: none;
+    font-size: 14px; font-weight: 500; transition: color 0.2s;
   }
-  nav a:hover { color: var(--accent-primary); }
+  nav a:hover { color: var(--text-primary); }
 
-  section { padding: 80px 5%; max-width: 1200px; margin: auto; }
+  section { padding: 100px 5%; max-width: 1200px; margin: auto; position: relative; z-index: 1; }
 
-  /* --- HERO & TERMINAL --- */
+  /* --- HERO SECTION --- */
   .hero {
+    display: flex; flex-direction: column; justify-content: center;
+    min-height: 70vh; position: relative;
+  }
+
+  .tagline {
+    font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--accent-color); margin-bottom: 20px; display: block;
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 72px); font-weight: 700; line-height: 1.05;
+    letter-spacing: -2px; margin-bottom: 24px; max-width: 800px; color: var(--text-primary);
+  }
+
+  .hero p {
+    font-size: clamp(18px, 2vw, 22px); color: var(--text-secondary);
+    max-width: 600px; margin-bottom: 40px; font-weight: 300;
+  }
+
+  /* --- BUTTONS --- */
+  .btn-group { display: flex; gap: 16px; flex-wrap: wrap; }
+  
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 14px 28px; border-radius: 8px; font-size: 15px; font-weight: 500;
+    text-decoration: none; transition: all 0.2s; cursor: pointer; border: none;
+  }
+  
+  .btn-primary {
+    background: var(--text-primary); color: #fff;
+  }
+  .btn-primary:hover { background: #000; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+  .btn-secondary {
+    background: var(--surface-color); color: var(--text-primary);
+    border: 1px solid var(--border-color);
+  }
+  .btn-secondary:hover { border-color: var(--text-primary); transform: translateY(-2px); }
+
+  /* --- PROJECTS GRID --- */
+  .section-header { margin-bottom: 60px; }
+  .section-header h2 { font-size: 36px; font-weight: 700; letter-spacing: -1px; }
+  .section-header p { color: var(--text-secondary); font-size: 18px; margin-top: 8px; }
+
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;
+  }
+
+  .card {
+    background: var(--surface-color); border: 1px solid var(--border-color);
+    border-radius: 16px; padding: 40px; transition: all 0.3s ease;
+    position: relative; overflow: hidden;
+  }
+  
+  .card:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+    transform: translateY(-4px);
+  }
+
+  .card-icon {
+    width: 48px; height: 48px; background: rgba(37, 99, 235, 0.1);
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin-bottom: 24px;
+  }
+
+  .card h3 { font-size: 22px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.5px; }
+  .card p { color: var(--text-secondary); font-size: 15px; margin-bottom: 24px; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    background: var(--bg-color); border: 1px solid var(--border-color);
+    padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  /* --- SKILLS & CONTACT ROW --- */
+  .info-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  
+  .info-box { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 16px; padding: 40px; }
+  .info-box h3 { font-size: 20px; font-weight: 600; margin-bottom: 24px; }
+
+  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .skill-list li {
+    display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px; font-size: 15px; color: var(--text-secondary);
+  }
+  .skill-list li span { font-weight: 500; color: var(--text-primary); }
+
+  .contact-links { display: flex; flex-direction: column; gap: 16px; }
+  .contact-row {
     display: flex; align-items: center; justify-content: space-between;
-    gap: 40px; flex-wrap: wrap; margin-top: 40px;
+    padding: 16px; background: var(--bg-color); border-radius: 8px;
+    text-decoration: none; color: var(--text-primary); font-weight: 500;
+    transition: background 0.2s; cursor: pointer; border: 1px solid transparent;
   }
-  .hero-content { flex: 1; min-width: 300px; }
-  
-  .status-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(0, 255, 204, 0.05); border: 1px solid rgba(0, 255, 204, 0.3);
-    color: var(--accent-primary); padding: 6px 14px; border-radius: 4px;
-    font-family: 'Fira Code', monospace; font-size: 12px; margin-bottom: 20px;
-  }
-  .status-badge::before {
-    content: ''; width: 8px; height: 8px; background: var(--accent-primary);
-    border-radius: 50%; animation: pulse 2s infinite;
-  }
-
-  .hero h2 { font-size: clamp(35px, 5vw, 55px); line-height: 1.1; margin-bottom: 20px; }
-  .hero h2 span { color: var(--accent-primary); }
-  .hero p { font-size: 18px; color: var(--text-muted); margin-bottom: 35px; }
-
-  .terminal {
-    background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    flex: 1; min-width: 300px; font-family: 'Fira Code', monospace;
-  }
-  .terminal-header {
-    background: #1a1a1a; padding: 10px 15px; display: flex; gap: 8px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .terminal-header span { width: 12px; height: 12px; border-radius: 50%; }
-  .mac-r { background: #ff5f56; } .mac-y { background: #ffbd2e; } .mac-g { background: #27c93f; }
-  
-  .terminal-body { padding: 25px; font-size: 14px; color: var(--text-muted); min-height: 250px; }
-  .cmd { color: var(--accent-primary); }
-  .cursor { display: inline-block; width: 8px; height: 15px; background: var(--accent-primary); animation: blink 1s infinite; vertical-align: middle; }
-
-  /* --- INTERACTIVE CARDS --- */
-  .section-title {
-    font-size: 24px; margin-bottom: 30px; display: flex; align-items: center; gap: 15px;
-    font-family: 'Fira Code', monospace; color: #fff;
-  }
-  .section-title::after {
-    content: ''; height: 1px; flex: 1; background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent);
-  }
-
-  .bento-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;
-  }
-
-  /* The magic interactive card wrapper */
-  .interactive-card {
-    background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 12px; padding: 1px; /* border thickness */
-    position: relative; overflow: hidden; cursor: crosshair;
-  }
-  .interactive-card::before {
-    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(0, 255, 204, 0.15), transparent 40%);
-    z-index: 1; opacity: 0; transition: opacity 0.3s;
-  }
-  .interactive-card:hover::before { opacity: 1; }
-  
-  .card-content {
-    background: var(--bg-main); border-radius: 11px; padding: 30px;
-    position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column;
-  }
-
-  .card-feature { grid-column: 1 / -1; }
-  
-  .interactive-card h3 { font-size: 20px; margin-bottom: 10px; color: #fff; }
-  .interactive-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; flex-grow: 1; }
-  
-  .tech-stack { display: flex; gap: 8px; flex-wrap: wrap; }
-  .tech-tag {
-    font-size: 11px; font-family: 'Fira Code', monospace;
-    background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 4px;
-    color: var(--accent-primary); border: 1px solid rgba(0,255,204,0.1);
-  }
-
-  /* --- MODULES (Skills & Contact Side-by-Side) --- */
-  .dashboard-row {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-  }
-  
-  .module-list { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
-  .module-list li {
-    padding: 8px 15px; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px;
-    font-size: 13px; font-family: 'Fira Code', monospace; background: rgba(255,255,255,0.02);
-  }
-  .module-list li:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
-
-  .comm-links { display: flex; flex-direction: column; gap: 15px; }
-  .comm-btn {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 15px 20px; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px;
-    color: var(--text-main); text-decoration: none; font-family: 'Fira Code', monospace;
-    background: rgba(255,255,255,0.02); transition: 0.3s;
-  }
-  .comm-btn:hover {
-    background: rgba(0,255,204,0.1); border-color: var(--accent-primary);
-    transform: translateX(10px); color: var(--accent-primary);
-  }
-  .comm-btn span.arrow { color: var(--accent-primary); }
+  .contact-row:hover { background: #fff; border-color: var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
 
   footer {
-    text-align: center; padding: 30px; font-family: 'Fira Code', monospace;
-    font-size: 12px; color: #475569; border-top: 1px solid rgba(255,255,255,0.05);
+    text-align: center; padding: 40px; color: var(--text-secondary);
+    font-size: 14px; border-top: 1px solid var(--border-color); margin-top: 60px;
   }
 
-  @keyframes blink { 50% { opacity: 0; } }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(0, 255, 204, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 204, 0); } }
-
   @media(max-width: 768px) {
-    .dashboard-row { grid-template-columns: 1fr; }
+    .info-row { grid-template-columns: 1fr; }
+    .hero { min-height: 60vh; padding-top: 60px; }
   }
 </style>
 </head>
 
 <body>
 
-<div id="boot-screen">
-  <div id="boot-logs"></div>
-</div>
-
-<div class="grid-overlay"></div>
+<canvas id="mesh-canvas"></canvas>
 
 <header>
-  <h1>VM<span>.</span>SYS</h1>
+  <a href="#" class="logo">Vaibhav<span>.</span></a>
   <nav>
-    <a href="#projects">01. ARCHITECTURE</a>
-    <a href="#sys-modules">02. SYS_MODULES</a>
+    <a href="#work">Work</a>
+    <a href="#about">Capabilities</a>
   </nav>
 </header>
 
 <section class="hero">
-  <div class="hero-content">
-    <div class="status-badge">RTOS_KERNEL: ACTIVE // LOC: PUNE</div>
-    <h2>Bridging complex hardware with <span>intelligent firmware.</span></h2>
-    <p>R&D System Engineer specializing in robust industrial software solutions, register-level debugging, and edge computing.</p>
-  </div>
-
-  <div class="terminal">
-    <div class="terminal-header">
-      <span class="mac-r"></span><span class="mac-y"></span><span class="mac-g"></span>
-    </div>
-    <div class="terminal-body" id="term-text">
-      </div>
-  </div>
-</section>
-
-<section id="projects">
-  <h2 class="section-title">>_ HARDWARE_DEPLOYMENTS</h2>
+  <span class="tagline">R&D System Engineer</span>
+  <h1>Delivering robust industrial software solutions.</h1>
+  <p>I specialize in bridging hardware integration with intelligent firmware architectures, moving systems from simulation to solid silicon.</p>
   
-  <div class="bento-grid" id="cards-container">
-    
-    <div class="interactive-card card-feature">
-      <div class="card-content">
-        <h3> JeevaTraksha (5G Hackathon Shortlist)</h3>
-        <p>Architected an embedded AI edge system for multi-crop disease diagnosis. Developed for offline use with a sub-1.5 second inference turnaround directly on silicon.</p>
-        <div class="tech-stack">
-          <span class="tech-tag">Raspberry Pi</span><span class="tech-tag">MATLAB</span>
-          <span class="tech-tag">MobileNetV2</span><span class="tech-tag">Edge AI</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="interactive-card">
-      <div class="card-content">
-        <h3> Hardware-Backed Security Layer</h3>
-        <p>Engineered an impregnable IoT dashboard using AES-256-GCM encryption, digital signatures, and secure key generation.</p>
-        <div class="tech-stack">
-          <span class="tech-tag">ESP32-S3</span><span class="tech-tag">AES-256</span><span class="tech-tag">C/C++</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="interactive-card">
-      <div class="card-content">
-        <h3> Vehicle Infotainment Prototype</h3>
-        <p>Designed a real-time data transmission prototype utilizing CAN protocols to process and display vehicle telemetry.</p>
-        <div class="tech-stack">
-          <span class="tech-tag">ARM Cortex-M4</span><span class="tech-tag">CAN Bus</span><span class="tech-tag">FreeRTOS</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="interactive-card">
-      <div class="card-content">
-        <h3> Emergency Transit Logic</h3>
-        <p>Conceptualized an offline transmitter-receiver architecture via LoRa to autonomously override traffic signals for emergency routing.</p>
-        <div class="tech-stack">
-          <span class="tech-tag">LoRaWAN</span><span class="tech-tag">SPI</span><span class="tech-tag">Logic Design</span>
-        </div>
-      </div>
-    </div>
-
+  <div class="btn-group">
+    <a href="#work" class="btn btn-primary">Explore Projects</a>
+    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
   </div>
 </section>
 
-<section id="sys-modules">
-  <div class="dashboard-row">
+<section id="work">
+  <div class="section-header">
+    <h2>Select Engineering</h2>
+    <p>Recent deployments in edge computing, embedded security, and comms.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-icon">🌱</div>
+      <h3>JeevaTraksha Edge AI</h3>
+      <p>Architected an offline, low-cost multi-crop disease diagnosis system. Optimized for sub-1.5 second inference times directly on edge hardware. Shortlisted for the 5G Hackathon.</p>
+      <div class="tags">
+        <span class="tag">Raspberry Pi</span><span class="tag">MobileNetV2</span><span class="tag">MATLAB</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🔒</div>
+      <h3>Hardware-Backed Security</h3>
+      <p>Engineered an IoT dashboard layer emphasizing data integrity. Implemented AES-256-GCM encryption, digital signatures, and secure key generation at the register level.</p>
+      <div class="tags">
+        <span class="tag">ESP32-S3</span><span class="tag">AES-256</span><span class="tag">C/C++</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🚗</div>
+      <h3>Telemetry & Infotainment</h3>
+      <p>Developed a real-time data transmission prototype integrating CAN protocols for high-fidelity vehicular telemetry and processing.</p>
+      <div class="tags">
+        <span class="tag">ARM Cortex-M4</span><span class="tag">CAN Bus</span><span class="tag">FreeRTOS</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">📡</div>
+      <h3>Offline Emergency Logic</h3>
+      <p>Conceptualized a transmitter-receiver logic architecture utilizing LoRa networks to autonomously manage traffic signals for emergency vehicle routing.</p>
+      <div class="tags">
+        <span class="tag">LoRaWAN</span><span class="tag">SPI Integration</span><span class="tag">C</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="info-row">
     
-    <div>
-      <h2 class="section-title">>_ TECH_STACK</h2>
-      <div class="interactive-card" style="height: calc(100% - 60px);">
-        <div class="card-content">
-          <ul class="module-list">
-            <li>FreeRTOS Task Mgmt</li>
-            <li>ARM Cortex-M (STM32)</li>
-            <li>ESP32 / ESP-IDF</li>
-            <li>C / C++</li>
-            <li>Parallel RGB TFT Displays</li>
-            <li>Hardware AES Encryption</li>
-            <li>Logic Analyzers & Oscilloscopes</li>
-            <li>SPI / I2C / UART / CAN</li>
-          </ul>
-        </div>
-      </div>
+    <div class="info-box">
+      <h3>Core Competencies</h3>
+      <ul class="skill-list">
+        <li><span>Firmware</span> FreeRTOS, C/C++</li>
+        <li><span>Microcontrollers</span> ARM Cortex-M (STM32), ESP32-S3</li>
+        <li><span>Hardware Integ.</span> Parallel RGB TFT, SPI, I2C, CAN</li>
+        <li><span>Diagnostics</span> Logic Analyzers, Oscilloscopes</li>
+        <li><span>Domain Edge</span> Embedded AI, IoT Security</li>
+      </ul>
     </div>
 
-<div>
-      <h2 class="section-title">>_ COMM_NODE</h2>
-      <div class="interactive-card" style="height: calc(100% - 60px);">
-        <div class="card-content">
-          <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">
-            Connection protocol open. Available for R&D collaborations, 2nm transition discussions, or complex firmware troubleshooting.
-          </p>
-          <div class="comm-links">
-            
-            <a href="javascript:void(0)" onclick="copyEmail()" class="comm-btn" id="email-btn">
-              <span id="email-text">[INITIATE] Copy Email</span> <span class="arrow">→</span>
-            </a>
-            
-            <a href="https://www.linkedin.com/in/muneshwarvaibhav" target="_blank" class="comm-btn">
-              <span>[ACCESS] LinkedIn</span> <span class="arrow">→</span>
-            </a>
-            <a href="https://github.com/yourusername" target="_blank" class="comm-btn">
-              <span>[FETCH] GitHub</span> <span class="arrow">→</span>
-            </a>
+    <div class="info-box" id="contact">
+      <h3>Establish Connection</h3>
+      <p style="color: var(--text-secondary); font-size: 15px; margin-bottom: 24px;">
+        Open to discussing R&D collaborations, hardware troubleshooting, or semiconductor advancements.
+      </p>
+      
+      <div class="contact-links">
+        <a onclick="copyEmail()" class="contact-row" id="email-btn">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            <span id="email-text">Copy Email Address</span>
           </div>
-        </div>
+          <span style="color: var(--accent-color);">→</span>
+        </a>
+
+        <a href="https://www.linkedin.com/in/muneshwarvaibhav" target="_blank" class="contact-row">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path><circle cx="4" cy="4" r="2"></circle></svg>
+            <span>LinkedIn Profile</span>
+          </div>
+          <span style="color: var(--accent-color);">↗</span>
+        </a>
+
+        <a href="https://github.com/yourusername" target="_blank" class="contact-row">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"></path></svg>
+            <span>GitHub Repositories</span>
+          </div>
+          <span style="color: var(--accent-color);">↗</span>
+        </a>
       </div>
     </div>
-
-    <script>
-      function copyEmail() {
-        navigator.clipboard.writeText("vmunehswar5@gmail.com");
-        const btnText = document.getElementById("email-text");
-        btnText.innerText = "[COPIED] vmunehswar5@gmail.com";
-        btnText.style.color = "#00ffcc";
-        setTimeout(() => {
-          btnText.innerText = "[INITIATE] Copy Email";
-          btnText.style.color = "";
-        }, 3000);
-      }
-    </script>
 
   </div>
 </section>
 
 <footer>
-  <p>SYSTEM UPTIME: <span id="uptime">00:00:00</span> // VAIBHAV MUNESHWAR © 2026</p>
+  <p>© 2026 Vaibhav Muneshwar. Built with precision.</p>
 </footer>
 
 <script>
-  /* 1. BOOT SEQUENCE LOGIC */
-  const bootLogs = [
-    "INIT BOOT SEQUENCE...",
-    "MOUNTING ROOT FS..... [OK]",
-    "LOADING FreeRTOS..... [OK]",
-    "CHECKING MEMORY...... 2048MB CLR",
-    "VERIFYING AES KEYS... SECURE",
-    "STARTING UI NODE..... DONE"
-  ];
-  
-  const bootDiv = document.getElementById("boot-logs");
-  let delay = 0;
-  
-  bootLogs.forEach((log, index) => {
-    setTimeout(() => {
-      const p = document.createElement("p");
-      p.className = "log-line";
-      p.innerText = "> " + log;
-      bootDiv.appendChild(p);
-      setTimeout(() => p.style.opacity = 1, 50);
-    }, delay);
-    delay += 300 + Math.random() * 200; // Randomize boot typing speed
-  });
-
-  setTimeout(() => {
-    document.getElementById("boot-screen").style.opacity = 0;
-    setTimeout(() => document.getElementById("boot-screen").style.display = "none", 500);
-    startTerminalTyping();
-  }, delay + 600);
-
-  /* 2. TERMINAL TYPING LOGIC */
-  const termLines = [
-    "<span class='cmd'>vm@engineering:~$</span> ./load_profile.sh",
-    "<br><span style='color:#22c55e'>NAME:</span> Vaibhav Muneshwar",
-    "<span style='color:#22c55e'>ROLE:</span> R&D System Engineer @ UEPL",
-    "<span style='color:#22c55e'>EDU:</span> MS Electronic Science, S.P. Pune Univ",
-    "<br><span class='cmd'>vm@engineering:~$</span> cat current_focus.txt",
-    "<span style='color:#ce9178'>\"Moving beyond simulation to silicon.\"</span><br>"
-  ];
-
-  function startTerminalTyping() {
-    const termDiv = document.getElementById("term-text");
-    let lineIndex = 0;
+  /* --- COPY TO CLIPBOARD LOGIC --- */
+  function copyEmail() {
+    navigator.clipboard.writeText("vmunehswar5@gmail.com");
+    const btnText = document.getElementById("email-text");
+    const originalText = btnText.innerText;
     
-    function typeLine() {
-      if(lineIndex < termLines.length) {
-        termDiv.innerHTML += termLines[lineIndex] + "<br>";
-        lineIndex++;
-        setTimeout(typeLine, 400);
-      } else {
-        termDiv.innerHTML += "<span class='cmd'>vm@engineering:~$</span> <span class='cursor'></span>";
-      }
-    }
-    typeLine();
+    btnText.innerText = "vmunehswar5@gmail.com Copied!";
+    btnText.style.color = "var(--accent-color)";
+    
+    setTimeout(() => {
+      btnText.innerText = originalText;
+      btnText.style.color = "inherit";
+    }, 3000);
   }
 
-  /* 3. MOUSE TRACKING GLOW LOGIC */
-  document.getElementById("cards-container").onmousemove = e => {
-    for(const card of document.getElementsByClassName("interactive-card")) {
-      const rect = card.getBoundingClientRect(),
-            x = e.clientX - rect.left,
-            y = e.clientY - rect.top;
-      card.style.setProperty("--mouse-x", `${x}px`);
-      card.style.setProperty("--mouse-y", `${y}px`);
-    }
-  };
+  /* --- INTERACTIVE MESH NETWORK LOGIC --- */
+  // This creates a subtle, elegant particle network that connects near your mouse.
+  const canvas = document.getElementById("mesh-canvas");
+  const ctx = canvas.getContext("2d");
   
-  // Also apply to dashboard row
-  document.querySelector(".dashboard-row").onmousemove = e => {
-    for(const card of document.querySelectorAll(".dashboard-row .interactive-card")) {
-      const rect = card.getBoundingClientRect(),
-            x = e.clientX - rect.left,
-            y = e.clientY - rect.top;
-      card.style.setProperty("--mouse-x", `${x}px`);
-      card.style.setProperty("--mouse-y", `${y}px`);
-    }
-  };
+  let particlesArray;
+  let mouse = { x: null, y: null, radius: 150 };
 
-  /* 4. UPTIME COUNTER */
-  let seconds = 0;
-  setInterval(() => {
-    seconds++;
-    const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
-    const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-    const s = String(seconds % 60).padStart(2, '0');
-    document.getElementById("uptime").innerText = `${h}:${m}:${s}`;
-  }, 1000);
+  window.addEventListener('mousemove', function(event) {
+    mouse.x = event.x;
+    mouse.y = event.y;
+  });
+
+  // Keep mouse position accurate when scrolling
+  window.addEventListener('scroll', function() {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
+  class Particle {
+    constructor(x, y, directionX, directionY, size, color) {
+      this.x = x; this.y = y;
+      this.directionX = directionX; this.directionY = directionY;
+      this.size = size; this.color = color;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+      ctx.fillStyle = '#cbd5e1'; // subtle gray dots
+      ctx.fill();
+    }
+    update() {
+      if (this.x > canvas.width || this.x < 0) { this.directionX = -this.directionX; }
+      if (this.y > canvas.height || this.y < 0) { this.directionY = -this.directionY; }
+      this.x += this.directionX;
+      this.y += this.directionY;
+      this.draw();
+    }
+  }
+
+  function init() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight * 0.8; // only cover hero section
+    particlesArray = [];
+    let numberOfParticles = (canvas.height * canvas.width) / 12000;
+    
+    for (let i = 0; i < numberOfParticles; i++) {
+      let size = (Math.random() * 2) + 1;
+      let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+      let y = (Math.random() * ((innerHeight * 0.8 - size * 2) - (size * 2)) + size * 2);
+      let directionX = (Math.random() * 0.4) - 0.2;
+      let directionY = (Math.random() * 0.4) - 0.2;
+      let color = '#cbd5e1';
+      particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+    }
+  }
+
+  function connect() {
+    let opacityValue = 1;
+    for (let a = 0; a < particlesArray.length; a++) {
+      for (let b = a; b < particlesArray.length; b++) {
+        let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
+                       ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+        if (distance < (canvas.width / 10) * (canvas.height / 10)) {
+          opacityValue = 1 - (distance / 15000);
+          ctx.strokeStyle = 'rgba(203, 213, 225,' + opacityValue + ')'; // subtle gray lines
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+          ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+          ctx.stroke();
+        }
+      }
+      
+      // Connect to mouse
+      if(mouse.x != null && mouse.y != null) {
+        let mouseDistance = ((particlesArray[a].x - mouse.x) * (particlesArray[a].x - mouse.x)) + 
+                            ((particlesArray[a].y - mouse.y) * (particlesArray[a].y - mouse.y));
+        if (mouseDistance < 20000) {
+          ctx.strokeStyle = 'rgba(37, 99, 235,' + (1 - mouseDistance/20000) * 0.5 + ')'; // Accent blue lines to cursor
+          ctx.beginPath();
+          ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    for (let i = 0; i < particlesArray.length; i++) {
+      particlesArray[i].update();
+    }
+    connect();
+  }
+
+  window.addEventListener('resize', function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight * 0.8;
+    init();
+  });
+
+  init();
+  animate();
 </script>
 
 </body>
