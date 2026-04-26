@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vaibhav Muneshwar | R&D System Engineer</title>
-<meta name="description" content="Vaibhav Muneshwar - R&D System Engineer specializing in embedded systems, firmware, edge AI, and industrial IoT solutions.">
+<meta name="description" content="Vaibhav Muneshwar - R&D System Engineer specializing in embedded systems, firmware, edge AI, and industrial IoT solutions. Bridging simulation to reliable silicon.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -38,13 +38,11 @@
     overflow-x: hidden;
   }
 
-  /* --- INTERACTIVE MESH CANVAS --- */
   #mesh-canvas {
     position: absolute; top: 0; left: 0; width: 100%; height: 80vh;
     z-index: 0; pointer-events: none;
   }
 
-  /* --- NAVIGATION --- */
   header {
     display: flex; justify-content: space-between; align-items: center;
     padding: 24px 5%; background: rgba(250, 250, 250, 0.85);
@@ -52,9 +50,7 @@
     position: sticky; top: 0; z-index: 1000;
   }
 
-  [data-theme="dark"] header {
-    background: rgba(15, 23, 42, 0.85);
-  }
+  [data-theme="dark"] header { background: rgba(15, 23, 42, 0.85); }
 
   .logo { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-primary); text-decoration: none; }
   .logo span { color: var(--accent-color); }
@@ -74,7 +70,7 @@
 
   section { padding: 100px 5%; max-width: 1200px; margin: auto; position: relative; z-index: 1; }
 
-  /* --- HERO SECTION --- */
+  /* HERO */
   .hero {
     display: flex; flex-direction: column; justify-content: center;
     min-height: 70vh; position: relative;
@@ -82,7 +78,7 @@
 
   .tagline {
     font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
-    color: var(--accent-color); margin-bottom: 20px; display: block;
+    color: var(--accent-color); margin-bottom: 20px;
   }
 
   .hero h1 {
@@ -95,7 +91,6 @@
     max-width: 600px; margin-bottom: 40px; font-weight: 300;
   }
 
-  /* --- BUTTONS --- */
   .btn-group { display: flex; gap: 16px; flex-wrap: wrap; }
   
   .btn {
@@ -104,9 +99,7 @@
     text-decoration: none; transition: all 0.2s; cursor: pointer; border: none;
   }
   
-  .btn-primary {
-    background: var(--text-primary); color: #fff;
-  }
+  .btn-primary { background: var(--text-primary); color: #fff; }
   .btn-primary:hover { background: #000; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 
   .btn-secondary {
@@ -115,7 +108,15 @@
   }
   .btn-secondary:hover { border-color: var(--text-primary); transform: translateY(-2px); }
 
-  /* --- PROJECTS GRID --- */
+  /* ABOUT SECTION */
+  .about {
+    background: var(--surface-color); border-radius: 20px; padding: 60px 5%;
+    border: 1px solid var(--border-color); margin-bottom: 80px;
+  }
+  .about h2 { font-size: 32px; margin-bottom: 24px; letter-spacing: -1px; }
+  .about p { color: var(--text-secondary); font-size: 17px; max-width: 700px; margin-bottom: 16px; }
+
+  /* PROJECTS */
   .section-header { margin-bottom: 60px; }
   .section-header h2 { font-size: 36px; font-weight: 700; letter-spacing: -1px; }
   .section-header p { color: var(--text-secondary); font-size: 18px; margin-top: 8px; }
@@ -128,6 +129,7 @@
     background: var(--surface-color); border: 1px solid var(--border-color);
     border-radius: 16px; padding: 40px; transition: all 0.4s ease;
     position: relative; overflow: hidden; opacity: 0; transform: translateY(30px);
+    cursor: pointer;
   }
   
   .card:hover {
@@ -143,7 +145,7 @@
   }
 
   .card h3 { font-size: 22px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.5px; }
-  .card p { color: var(--text-secondary); font-size: 15px; margin-bottom: 24px; }
+  .card p { color: var(--text-secondary); font-size: 15px; margin-bottom: 20px; }
 
   .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
   .tag {
@@ -152,13 +154,30 @@
     color: var(--text-secondary);
   }
 
-  .view-details {
-    color: var(--accent-color); font-weight: 500; text-decoration: none;
-    font-size: 14px; display: inline-flex; align-items: center; gap: 6px;
-  }
-  .view-details:hover { gap: 10px; }
+  .impact { font-size: 14px; color: var(--accent-color); font-weight: 500; margin-top: 8px; }
 
-  /* --- SKILLS & CONTACT ROW --- */
+  /* MODAL */
+  .modal {
+    display: none; position: fixed; z-index: 2000; left: 0; top: 0;
+    width: 100%; height: 100%; background: rgba(0,0,0,0.65);
+    align-items: center; justify-content: center;
+  }
+  .modal-content {
+    background: var(--surface-color); max-width: 680px; width: 92%;
+    border-radius: 20px; padding: 48px; position: relative;
+    max-height: 92vh; overflow-y: auto;
+  }
+  .close-modal {
+    position: absolute; top: 24px; right: 32px; font-size: 32px;
+    cursor: pointer; color: var(--text-secondary); line-height: 1;
+  }
+  .modal img {
+    width: 100%; border-radius: 12px; margin: 24px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  .modal h3 { margin-bottom: 20px; font-size: 28px; }
+  .modal .impact { font-size: 16px; margin: 20px 0; }
+
+  /* SKILLS & CONTACT */
   .info-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
   
   .info-box {
@@ -183,23 +202,6 @@
   }
   .contact-row:hover { background: var(--surface-color); border-color: var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
 
-  /* --- MODAL --- */
-  .modal {
-    display: none; position: fixed; z-index: 2000; left: 0; top: 0;
-    width: 100%; height: 100%; background: rgba(0,0,0,0.6);
-    align-items: center; justify-content: center;
-  }
-  .modal-content {
-    background: var(--surface-color); max-width: 600px; width: 90%;
-    border-radius: 16px; padding: 40px; position: relative;
-    max-height: 90vh; overflow-y: auto;
-  }
-  .close-modal {
-    position: absolute; top: 20px; right: 24px; font-size: 28px;
-    cursor: pointer; color: var(--text-secondary);
-  }
-  .modal h3 { margin-bottom: 16px; font-size: 26px; }
-
   footer {
     text-align: center; padding: 60px 20px 40px; color: var(--text-secondary);
     font-size: 14px; border-top: 1px solid var(--border-color);
@@ -208,9 +210,8 @@
   @media (max-width: 768px) {
     .info-row { grid-template-columns: 1fr; }
     .hero { min-height: 60vh; padding-top: 80px; }
-    #mesh-canvas { display: none; } /* Disable heavy canvas on mobile for performance */
-    header { padding: 20px 5%; }
-    nav { gap: 20px; }
+    #mesh-canvas { display: none; }
+    .about { padding: 40px 5%; margin-bottom: 60px; }
   }
 </style>
 </head>
@@ -223,7 +224,8 @@
   <a href="#" class="logo">Vaibhav<span>.</span></a>
   <nav>
     <a href="#work">Work</a>
-    <a href="#about">Capabilities</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
     <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
   </nav>
 </header>
@@ -240,56 +242,66 @@
   </div>
 </section>
 
+<!-- NEW ABOUT SECTION -->
+<section id="about">
+  <div class="about">
+    <h2>About My Approach</h2>
+    <p>With a strong foundation in embedded systems and a passion for real-world reliability, I focus on designing firmware and edge solutions that perform under constraints — limited power, intermittent connectivity, and harsh environments.</p>
+    <p>Whether optimizing inference on low-cost edge hardware for agriculture or building secure, hardware-backed IoT layers, my goal is to turn complex simulations into dependable silicon that solves practical problems, especially in Indian contexts like smart farming and emergency response systems.</p>
+    <p>I believe great engineering lies in the details: clean interrupt handling, robust error recovery, and measurable improvements in latency, power, and uptime. Currently open to R&D collaborations that push the boundaries of edge intelligence and secure embedded systems.</p>
+  </div>
+</section>
+
 <section id="work">
   <div class="section-header">
     <h2>Select Engineering</h2>
-    <p>Recent deployments in edge computing, embedded security, and comms.</p>
+    <p>Recent deployments in edge computing, embedded security, and reliable communications.</p>
   </div>
 
   <div class="grid">
     <div class="card" data-project="1">
       <div class="card-icon">🌱</div>
       <h3>JeevaTraksha Edge AI</h3>
-      <p>Architected an offline, low-cost multi-crop disease diagnosis system. Optimized for sub-1.5 second inference times directly on edge hardware. Shortlisted for the 5G Hackathon.</p>
+      <p>Offline multi-crop disease diagnosis system optimized for low-cost edge hardware.</p>
       <div class="tags">
-        <span class="tag">Raspberry Pi</span><span class="tag">MobileNetV2</span><span class="tag">MATLAB</span>
+        <span class="tag">Raspberry Pi</span><span class="tag">MobileNetV2</span><span class="tag">TensorFlow Lite</span>
       </div>
-      <a href="#" class="view-details">View Details →</a>
+      <div class="impact">Achieved sub-1.5s inference • Shortlisted for 5G Hackathon</div>
     </div>
 
     <div class="card" data-project="2">
       <div class="card-icon">🔒</div>
       <h3>Hardware-Backed Security</h3>
-      <p>Engineered an IoT dashboard layer emphasizing data integrity. Implemented AES-256-GCM encryption, digital signatures, and secure key generation at the register level.</p>
+      <p>IoT security layer with register-level encryption and integrity protection.</p>
       <div class="tags">
-        <span class="tag">ESP32-S3</span><span class="tag">AES-256</span><span class="tag">C/C++</span>
+        <span class="tag">ESP32-S3</span><span class="tag">AES-256-GCM</span><span class="tag">C/C++</span>
       </div>
-      <a href="#" class="view-details">View Details →</a>
+      <div class="impact">Implemented secure boot & signatures • Reduced potential attack surface</div>
     </div>
 
     <div class="card" data-project="3">
       <div class="card-icon">🚗</div>
       <h3>Telemetry & Infotainment</h3>
-      <p>Developed a real-time data transmission prototype integrating CAN protocols for high-fidelity vehicular telemetry and processing.</p>
+      <p>Real-time vehicular telemetry prototype using CAN bus integration.</p>
       <div class="tags">
         <span class="tag">ARM Cortex-M4</span><span class="tag">CAN Bus</span><span class="tag">FreeRTOS</span>
       </div>
-      <a href="#" class="view-details">View Details →</a>
+      <div class="impact">High-fidelity data transmission • Improved processing reliability</div>
     </div>
 
     <div class="card" data-project="4">
       <div class="card-icon">📡</div>
       <h3>Offline Emergency Logic</h3>
-      <p>Conceptualized a transmitter-receiver logic architecture utilizing LoRa networks to autonomously manage traffic signals for emergency vehicle routing.</p>
+      <p>LoRaWAN-based autonomous traffic signal control for emergency routing in low-connectivity areas.</p>
       <div class="tags">
-        <span class="tag">LoRaWAN</span><span class="tag">SPI Integration</span><span class="tag">C</span>
+        <span class="tag">LoRaWAN</span><span class="tag">SPI</span><span class="tag">C</span>
       </div>
-      <a href="#" class="view-details">View Details →</a>
+      <div class="impact">Designed for zero-connectivity operation • Reliable long-range signaling</div>
     </div>
   </div>
 </section>
 
-<section id="about">
+<section id="contact">
   <div class="info-row">
     
     <div class="info-box">
@@ -299,14 +311,14 @@
         <li><span>Microcontrollers</span> ARM Cortex-M (STM32), ESP32-S3</li>
         <li><span>Hardware Integration</span> Parallel RGB TFT, SPI, I2C, CAN</li>
         <li><span>Diagnostics</span> Logic Analyzers, Oscilloscopes</li>
-        <li><span>Domain Edge</span> Embedded AI, IoT Security</li>
+        <li><span>Edge Domain</span> Embedded AI, IoT Security</li>
       </ul>
     </div>
 
-    <div class="info-box" id="contact">
+    <div class="info-box">
       <h3>Establish Connection</h3>
       <p style="color: var(--text-secondary); font-size: 15px; margin-bottom: 24px;">
-        Open to discussing R&D collaborations, hardware troubleshooting, or semiconductor advancements.
+        Open to R&D collaborations, hardware troubleshooting, or discussions on semiconductor and edge intelligence advancements.
       </p>
       
       <div class="contact-links">
@@ -326,7 +338,7 @@
           <span style="color: var(--accent-color);">↗</span>
         </a>
 
-        <a href="https://github.com/yourusername" target="_blank" class="contact-row"> <!-- ← UPDATE THIS -->
+        <a href="https://github.com/yourusername" target="_blank" class="contact-row">
           <div style="display: flex; align-items: center; gap: 12px;">
             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"></path></svg>
             <span>GitHub Repositories</span>
@@ -347,27 +359,25 @@
 <div id="project-modal" class="modal">
   <div class="modal-content">
     <span class="close-modal" onclick="closeModal()">×</span>
-    <div id="modal-body">
-      <!-- Content injected by JS -->
-    </div>
+    <div id="modal-body"></div>
   </div>
 </div>
 
 <script>
-  /* --- COPY EMAIL --- */
+  /* COPY EMAIL */
   function copyEmail() {
     navigator.clipboard.writeText("vmunehswar5@gmail.com");
     const btnText = document.getElementById("email-text");
-    const originalText = btnText.innerText;
+    const original = btnText.innerText;
     btnText.innerText = "vmunehswar5@gmail.com Copied!";
     btnText.style.color = "var(--accent-color)";
     setTimeout(() => {
-      btnText.innerText = originalText;
+      btnText.innerText = original;
       btnText.style.color = "inherit";
     }, 3000);
   }
 
-  /* --- DARK MODE --- */
+  /* DARK MODE */
   const themeToggle = document.getElementById('theme-toggle');
   const root = document.documentElement;
 
@@ -378,51 +388,69 @@
   }
 
   const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    setTheme(savedTheme);
-  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    setTheme('dark');
-  }
+  if (savedTheme) setTheme(savedTheme);
+  else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
 
   themeToggle.addEventListener('click', () => {
     const current = root.getAttribute('data-theme') || 'light';
     setTheme(current === 'dark' ? 'light' : 'dark');
   });
 
-  /* --- MODAL LOGIC --- */
+  /* MODAL with enhanced content & placeholder images */
   const modal = document.getElementById('project-modal');
   const modalBody = document.getElementById('modal-body');
 
   const projectData = {
     1: {
       title: "JeevaTraksha Edge AI",
-      content: `<p><strong>Challenge:</strong> Create a low-cost, offline crop disease detection system for Indian farmers.</p>
-                <p><strong>Solution:</strong> Optimized MobileNetV2 model running on Raspberry Pi with sub-1.5s inference. Achieved high accuracy while keeping power consumption minimal.</p>
-                <p><strong>Impact:</strong> Shortlisted for national 5G Hackathon. Demonstrates practical edge AI deployment in agriculture.</p>
-                <p><strong>Tech:</strong> Raspberry Pi • TensorFlow Lite • MobileNetV2 • MATLAB • Python</p>`
+      html: `
+        <img src="https://via.placeholder.com/680x380/2563eb/ffffff?text=JeevaTraksha+Prototype" alt="JeevaTraksha Edge Device">
+        <h3>JeevaTraksha Edge AI</h3>
+        <p><strong>Challenge:</strong> Build an affordable, fully offline crop disease diagnosis tool for farmers with limited internet and computing resources.</p>
+        <p><strong>Solution:</strong> Optimized MobileNetV2 model deployed on Raspberry Pi with TensorFlow Lite, including custom preprocessing pipeline.</p>
+        <p class="impact"><strong>Impact:</strong> Sub-1.5 second inference time • High accuracy on multiple crops • Shortlisted for national 5G Hackathon • Demonstrates practical edge AI for Indian agriculture.</p>
+        <p><strong>Tech Stack:</strong> Raspberry Pi, MobileNetV2, TensorFlow Lite, MATLAB, Python</p>
+      `
     },
     2: {
       title: "Hardware-Backed Security",
-      content: `<p><strong>Focus:</strong> End-to-end data integrity for IoT devices.</p>
-                <p>Implemented AES-256-GCM encryption, digital signatures, and secure boot elements at the hardware register level on ESP32-S3.</p>
-                <p>Ensured protection against common side-channel and replay attacks.</p>`
+      html: `
+        <img src="https://via.placeholder.com/680x380/1e2937/94a3b8?text=ESP32+Security+Setup" alt="Security Implementation">
+        <h3>Hardware-Backed Security</h3>
+        <p><strong>Challenge:</strong> Protect IoT data integrity against tampering and replay attacks in resource-constrained devices.</p>
+        <p><strong>Solution:</strong> AES-256-GCM encryption, digital signatures, and secure key generation implemented at register level on ESP32-S3 with hardware acceleration.</p>
+        <p class="impact"><strong>Impact:</strong> Strong resistance to common attacks • Minimal performance overhead • Foundation for secure industrial IoT deployments.</p>
+        <p><strong>Tech Stack:</strong> ESP32-S3, AES-256-GCM, C/C++, mbed TLS</p>
+      `
     },
     3: {
       title: "Telemetry & Infotainment",
-      content: `<p>Real-time CAN bus data acquisition and processing using ARM Cortex-M4 with FreeRTOS.</p>
-                <p>Built a reliable telemetry pipeline suitable for automotive and industrial applications.</p>`
+      html: `
+        <img src="https://via.placeholder.com/680x380/334155/f1f5f9?text=CAN+Bus+Telemetry" alt="Telemetry Prototype">
+        <h3>Telemetry & Infotainment</h3>
+        <p><strong>Challenge:</strong> Reliable real-time data acquisition and transmission from vehicles under varying conditions.</p>
+        <p><strong>Solution:</strong> CAN protocol integration with FreeRTOS task management on ARM Cortex-M4 for high-fidelity telemetry.</p>
+        <p class="impact"><strong>Impact:</strong> Improved data accuracy and processing speed • Suitable for both automotive and industrial monitoring applications.</p>
+        <p><strong>Tech Stack:</strong> ARM Cortex-M4, CAN Bus, FreeRTOS, C</p>
+      `
     },
     4: {
       title: "Offline Emergency Logic",
-      content: `<p>LoRaWAN-based autonomous traffic signal control for emergency vehicles in areas with poor connectivity.</p>
-                <p>Designed transmitter-receiver architecture with SPI integration for reliable long-range communication.</p>`
+      html: `
+        <img src="https://via.placeholder.com/680x380/2563eb/ffffff?text=LoRaWAN+Emergency+Node" alt="LoRa Emergency System">
+        <h3>Offline Emergency Logic</h3>
+        <p><strong>Challenge:</strong> Enable autonomous traffic management for emergency vehicles in areas with poor or no cellular coverage.</p>
+        <p><strong>Solution:</strong> Transmitter-receiver architecture using LoRaWAN with SPI integration for long-range, low-power communication.</p>
+        <p class="impact"><strong>Impact:</strong> Reliable operation in zero-connectivity zones • Fast signal prioritization logic • Potential for real-world smart city deployment.</p>
+        <p><strong>Tech Stack:</strong> LoRaWAN, SPI Integration, C, Embedded Protocols</p>
+      `
     }
   };
 
-  function openModal(projectId) {
-    const data = projectData[projectId];
+  function openModal(id) {
+    const data = projectData[id];
     if (!data) return;
-    modalBody.innerHTML = `<h3>${data.title}</h3>${data.content}`;
+    modalBody.innerHTML = data.html;
     modal.style.display = 'flex';
   }
 
@@ -430,56 +458,35 @@
     modal.style.display = 'none';
   }
 
-  // Attach click listeners to "View Details"
   document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', (e) => {
-      if (e.target.classList.contains('view-details') || e.target.closest('.view-details')) {
-        const id = card.getAttribute('data-project');
-        openModal(id);
-      }
+    card.addEventListener('click', () => {
+      const id = card.getAttribute('data-project');
+      openModal(id);
     });
   });
 
-  // Close modal when clicking outside content
   modal.addEventListener('click', (e) => {
     if (e.target === modal) closeModal();
   });
 
-  /* --- CANVAS MESH (with performance consideration) --- */
+  /* CANVAS (performance-optimized) */
   const canvas = document.getElementById("mesh-canvas");
   const ctx = canvas.getContext("2d");
-  
   let particlesArray = [];
-  let mouse = { x: null, y: null, radius: 150 };
+  let mouse = { x: null, y: null };
 
-  window.addEventListener('mousemove', (event) => {
-    mouse.x = event.clientX;
-    mouse.y = event.clientY;
-  });
-
-  window.addEventListener('scroll', () => {
-    mouse.x = null;
-    mouse.y = null;
-  });
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('scroll', () => { mouse.x = null; mouse.y = null; });
 
   class Particle {
-    constructor(x, y, directionX, directionY, size) {
-      this.x = x; this.y = y;
-      this.directionX = directionX; this.directionY = directionY;
-      this.size = size;
+    constructor(x, y, dx, dy, size) {
+      this.x = x; this.y = y; this.dx = dx; this.dy = dy; this.size = size;
     }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = '#cbd5e1';
-      ctx.fill();
-    }
+    draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fillStyle = '#cbd5e1'; ctx.fill(); }
     update() {
-      if (this.x > canvas.width || this.x < 0) this.directionX *= -1;
-      if (this.y > canvas.height || this.y < 0) this.directionY *= -1;
-      this.x += this.directionX;
-      this.y += this.directionY;
-      this.draw();
+      if (this.x < 0 || this.x > canvas.width) this.dx *= -1;
+      if (this.y < 0 || this.y > canvas.height) this.dy *= -1;
+      this.x += this.dx; this.y += this.dy; this.draw();
     }
   }
 
@@ -487,28 +494,26 @@
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight * 0.8;
     particlesArray = [];
-    const numberOfParticles = Math.min((canvas.height * canvas.width) / 15000, 120); // capped for performance
-    
-    for (let i = 0; i < numberOfParticles; i++) {
-      const size = (Math.random() * 2) + 1;
-      const x = Math.random() * (canvas.width - size * 2) + size;
-      const y = Math.random() * (canvas.height - size * 2) + size;
-      const directionX = (Math.random() * 0.6) - 0.3;
-      const directionY = (Math.random() * 0.6) - 0.3;
-      particlesArray.push(new Particle(x, y, directionX, directionY, size));
+    const count = Math.min((canvas.width * canvas.height) / 15000, 110);
+    for (let i = 0; i < count; i++) {
+      const size = Math.random() * 2 + 1;
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const dx = (Math.random() * 0.6) - 0.3;
+      const dy = (Math.random() * 0.6) - 0.3;
+      particlesArray.push(new Particle(x, y, dx, dy, size));
     }
   }
 
   function connect() {
     for (let a = 0; a < particlesArray.length; a++) {
-      for (let b = a + 1; b < particlesArray.length; b++) {  // optimized: a+1 instead of a
+      for (let b = a + 1; b < particlesArray.length; b++) {
         const dx = particlesArray[a].x - particlesArray[b].x;
         const dy = particlesArray[a].y - particlesArray[b].y;
-        const distance = dx * dx + dy * dy;
-        
-        if (distance < 12000) {
-          const opacity = 1 - (distance / 15000);
-          ctx.strokeStyle = `rgba(203, 213, 225, ${opacity})`;
+        const distSq = dx*dx + dy*dy;
+        if (distSq < 12000) {
+          const opacity = 1 - (distSq / 15000);
+          ctx.strokeStyle = `rgba(203,213,225,${opacity})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -516,14 +521,12 @@
           ctx.stroke();
         }
       }
-      
-      // Mouse connection
       if (mouse.x && mouse.y) {
         const dx = particlesArray[a].x - mouse.x;
         const dy = particlesArray[a].y - mouse.y;
-        const distance = dx * dx + dy * dy;
-        if (distance < 25000) {
-          ctx.strokeStyle = `rgba(37, 99, 235, ${0.4 * (1 - distance/25000)})`;
+        const distSq = dx*dx + dy*dy;
+        if (distSq < 25000) {
+          ctx.strokeStyle = `rgba(37,99,235,${0.4 * (1 - distSq/25000)})`;
           ctx.beginPath();
           ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
           ctx.lineTo(mouse.x, mouse.y);
@@ -540,18 +543,14 @@
     connect();
   }
 
-  window.addEventListener('resize', () => {
-    init();
-  });
-
-  // Start canvas only if not on mobile
   if (window.innerWidth > 768) {
     init();
     animate();
+    window.addEventListener('resize', init);
   }
 
-  /* --- SCROLL FADE-IN ANIMATION --- */
-  const observer = new IntersectionObserver((entries) => {
+  /* Fade-in animation */
+  const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.style.transition = 'all 0.7s ease';
@@ -561,9 +560,7 @@
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll('.card, .info-box').forEach(el => {
-    observer.observe(el);
-  });
+  document.querySelectorAll('.card, .info-box, .about').forEach(el => observer.observe(el));
 </script>
 
 </body>
