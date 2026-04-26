@@ -9,7 +9,7 @@
 <style>
   :root {
     --bg-main: #050505;
-    --bg-panel: rgba(15, 23, 42, 0.6);
+    --bg-panel: rgba(15, 23, 42, 0.4);
     --accent-primary: #00ffcc;
     --accent-secondary: #7000ff;
     --text-main: #e2e8f0;
@@ -24,22 +24,26 @@
     font-family: 'Outfit', sans-serif;
     background-color: var(--bg-main);
     color: var(--text-main);
-    background-image: 
-      radial-gradient(circle at 15% 50%, rgba(112, 0, 255, 0.08), transparent 25%),
-      radial-gradient(circle at 85% 30%, rgba(0, 255, 204, 0.08), transparent 25%);
-    background-attachment: fixed;
-    line-height: 1.6;
+    overflow-x: hidden;
   }
 
-  /* Grid Background Overlay */
+  /* --- BOOT SEQUENCE --- */
+  #boot-screen {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #000; z-index: 9999; display: flex; flex-direction: column;
+    justify-content: center; padding: 5%; font-family: 'Fira Code', monospace;
+    color: var(--terminal-green); font-size: 14px;
+    transition: opacity 0.5s ease-out;
+  }
+  .log-line { opacity: 0; margin-bottom: 8px; }
+
+  /* --- BACKGROUND FX --- */
   .grid-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background-size: 40px 40px;
     background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
                       linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    z-index: -1;
-    pointer-events: none;
+    z-index: -1; pointer-events: none;
   }
 
   header {
@@ -49,288 +53,358 @@
     position: sticky; top: 0; z-index: 1000;
   }
 
-  header h1 {
-    font-size: 20px; font-weight: 700; letter-spacing: 1px;
-    background: linear-gradient(90deg, var(--accent-primary), #fff);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
+  header h1 { font-size: 20px; font-weight: 700; color: #fff; }
+  header h1 span { color: var(--accent-primary); }
 
   nav a {
     margin-left: 25px; color: var(--text-muted); text-decoration: none;
-    font-size: 14px; font-weight: 500; transition: color 0.3s;
+    font-size: 13px; font-weight: 600; font-family: 'Fira Code', monospace;
+    transition: color 0.3s;
   }
-  
   nav a:hover { color: var(--accent-primary); }
 
-  section { padding: 100px 5%; max-width: 1200px; margin: auto; }
+  section { padding: 80px 5%; max-width: 1200px; margin: auto; }
 
-  /* HERO SECTION */
+  /* --- HERO & TERMINAL --- */
   .hero {
     display: flex; align-items: center; justify-content: space-between;
-    min-height: 80vh; gap: 40px; flex-wrap: wrap;
+    gap: 40px; flex-wrap: wrap; margin-top: 40px;
   }
-
   .hero-content { flex: 1; min-width: 300px; }
   
   .status-badge {
     display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(0, 255, 204, 0.1); border: 1px solid rgba(0, 255, 204, 0.3);
-    color: var(--accent-primary); padding: 6px 14px; border-radius: 20px;
+    background: rgba(0, 255, 204, 0.05); border: 1px solid rgba(0, 255, 204, 0.3);
+    color: var(--accent-primary); padding: 6px 14px; border-radius: 4px;
     font-family: 'Fira Code', monospace; font-size: 12px; margin-bottom: 20px;
   }
-  
   .status-badge::before {
     content: ''; width: 8px; height: 8px; background: var(--accent-primary);
-    border-radius: 50%; box-shadow: 0 0 10px var(--accent-primary);
-    animation: pulse 2s infinite;
+    border-radius: 50%; animation: pulse 2s infinite;
   }
 
-  .hero h2 { font-size: clamp(40px, 5vw, 65px); line-height: 1.1; margin-bottom: 20px; }
+  .hero h2 { font-size: clamp(35px, 5vw, 55px); line-height: 1.1; margin-bottom: 20px; }
   .hero h2 span { color: var(--accent-primary); }
-  
-  .hero p {
-    font-size: 18px; color: var(--text-muted); margin-bottom: 35px; max-width: 600px;
-  }
+  .hero p { font-size: 18px; color: var(--text-muted); margin-bottom: 35px; }
 
-  .btn {
-    display: inline-block; padding: 14px 28px; border-radius: 4px;
-    font-family: 'Fira Code', monospace; font-size: 14px; font-weight: 600;
-    text-decoration: none; transition: all 0.3s; cursor: pointer;
-  }
-  
-  .btn-primary {
-    background: var(--accent-primary); color: #000;
-    box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
-  }
-  
-  .btn-primary:hover {
-    box-shadow: 0 0 30px rgba(0, 255, 204, 0.5); transform: translateY(-2px);
-  }
-
-  .btn-outline {
-    background: transparent; color: var(--text-main);
-    border: 1px solid rgba(255,255,255,0.2); margin-left: 15px;
-  }
-  
-  .btn-outline:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
-
-  /* TERMINAL WINDOW (About Me) */
   .terminal {
     background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1);
     border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     flex: 1; min-width: 300px; font-family: 'Fira Code', monospace;
   }
-  
   .terminal-header {
     background: #1a1a1a; padding: 10px 15px; display: flex; gap: 8px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
   }
-  
-  .terminal-header span {
-    width: 12px; height: 12px; border-radius: 50%;
-  }
+  .terminal-header span { width: 12px; height: 12px; border-radius: 50%; }
   .mac-r { background: #ff5f56; } .mac-y { background: #ffbd2e; } .mac-g { background: #27c93f; }
   
-  .terminal-body { padding: 25px; font-size: 14px; color: var(--text-muted); }
+  .terminal-body { padding: 25px; font-size: 14px; color: var(--text-muted); min-height: 250px; }
   .cmd { color: var(--accent-primary); }
-  .string { color: #ce9178; }
+  .cursor { display: inline-block; width: 8px; height: 15px; background: var(--accent-primary); animation: blink 1s infinite; vertical-align: middle; }
 
-  /* BENTO GRID (Projects) */
+  /* --- INTERACTIVE CARDS --- */
   .section-title {
-    font-size: 32px; margin-bottom: 40px; display: flex; align-items: center; gap: 15px;
+    font-size: 24px; margin-bottom: 30px; display: flex; align-items: center; gap: 15px;
+    font-family: 'Fira Code', monospace; color: #fff;
   }
   .section-title::after {
-    content: ''; height: 1px; flex: 1; background: linear-gradient(90deg, rgba(255,255,255,0.2), transparent);
+    content: ''; height: 1px; flex: 1; background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent);
   }
 
   .bento-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px; grid-auto-rows: 250px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;
   }
 
-  .bento-card {
-    background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 16px; padding: 30px; backdrop-filter: blur(10px);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: flex; flex-direction: column; justify-content: center;
-    position: relative; overflow: hidden;
+  /* The magic interactive card wrapper */
+  .interactive-card {
+    background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px; padding: 1px; /* border thickness */
+    position: relative; overflow: hidden; cursor: crosshair;
   }
+  .interactive-card::before {
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(0, 255, 204, 0.15), transparent 40%);
+    z-index: 1; opacity: 0; transition: opacity 0.3s;
+  }
+  .interactive-card:hover::before { opacity: 1; }
   
-  .bento-card::before {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
-    opacity: 0; transition: opacity 0.3s;
+  .card-content {
+    background: var(--bg-main); border-radius: 11px; padding: 30px;
+    position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column;
   }
 
-  .bento-card:hover { transform: translateY(-5px); border-color: rgba(0, 255, 204, 0.2); }
-  .bento-card:hover::before { opacity: 1; }
-
-  .card-feature { grid-column: 1 / -1; background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(5, 5, 5, 0.9)); }
+  .card-feature { grid-column: 1 / -1; }
   
-  .bento-card h3 { font-size: 22px; margin-bottom: 10px; color: #fff; }
-  .bento-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 15px; flex-grow: 1; }
+  .interactive-card h3 { font-size: 20px; margin-bottom: 10px; color: #fff; }
+  .interactive-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; flex-grow: 1; }
   
-  .tech-stack { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
+  .tech-stack { display: flex; gap: 8px; flex-wrap: wrap; }
   .tech-tag {
     font-size: 11px; font-family: 'Fira Code', monospace;
     background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 4px;
-    color: var(--accent-primary);
+    color: var(--accent-primary); border: 1px solid rgba(0,255,204,0.1);
   }
 
-  /* SKILLS SECTION */
-  .skills-container {
-    display: flex; flex-wrap: wrap; gap: 15px;
+  /* --- MODULES (Skills & Contact Side-by-Side) --- */
+  .dashboard-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
   }
-  .skill-pill {
-    padding: 12px 24px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.03); font-weight: 500; transition: 0.3s;
+  
+  .module-list { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
+  .module-list li {
+    padding: 8px 15px; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px;
+    font-size: 13px; font-family: 'Fira Code', monospace; background: rgba(255,255,255,0.02);
   }
-  .skill-pill:hover {
-    background: rgba(0, 255, 204, 0.1); border-color: var(--accent-primary);
-    color: var(--accent-primary);
+  .module-list li:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+
+  .comm-links { display: flex; flex-direction: column; gap: 15px; }
+  .comm-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 15px 20px; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px;
+    color: var(--text-main); text-decoration: none; font-family: 'Fira Code', monospace;
+    background: rgba(255,255,255,0.02); transition: 0.3s;
   }
+  .comm-btn:hover {
+    background: rgba(0,255,204,0.1); border-color: var(--accent-primary);
+    transform: translateX(10px); color: var(--accent-primary);
+  }
+  .comm-btn span.arrow { color: var(--accent-primary); }
 
   footer {
-    text-align: center; padding: 40px; border-top: 1px solid rgba(255,255,255,0.05);
-    font-family: 'Fira Code', monospace; font-size: 12px; color: var(--text-muted);
+    text-align: center; padding: 30px; font-family: 'Fira Code', monospace;
+    font-size: 12px; color: #475569; border-top: 1px solid rgba(255,255,255,0.05);
   }
 
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.4); }
-    70% { box-shadow: 0 0 0 6px rgba(0, 255, 204, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(0, 255, 204, 0); }
-  }
+  @keyframes blink { 50% { opacity: 0; } }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(0, 255, 204, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 204, 0); } }
 
   @media(max-width: 768px) {
-    .bento-grid { grid-auto-rows: auto; }
-    .hero { min-height: auto; padding-top: 50px; }
+    .dashboard-row { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 
 <body>
+
+<div id="boot-screen">
+  <div id="boot-logs"></div>
+</div>
+
 <div class="grid-overlay"></div>
 
 <header>
-  <h1>VM.</h1>
+  <h1>VM<span>.</span>SYS</h1>
   <nav>
-    <a href="#about">SYS_INFO</a>
-    <a href="#projects">PROJECTS</a>
-    <a href="#skills">SKILLS</a>
+    <a href="#projects">01. ARCHITECTURE</a>
+    <a href="#sys-modules">02. SYS_MODULES</a>
   </nav>
 </header>
 
 <section class="hero">
   <div class="hero-content">
-    <div class="status-badge">SYSTEM_ONLINE // LOCATION: PUNE, IN</div>
-    <h2>Delivering <span>robust</span> industrial software solutions.</h2>
-    <p>I am an R&D System Engineer specializing in bridging complex hardware integration with intelligent firmware architectures.</p>
-    <div>
-      <a href="#projects" class="btn btn-primary">Init. Deploy</a>
-      <a href="#contact" class="btn btn-outline">Contact_Node</a>
-    </div>
+    <div class="status-badge">RTOS_KERNEL: ACTIVE // LOC: PUNE</div>
+    <h2>Bridging complex hardware with <span>intelligent firmware.</span></h2>
+    <p>R&D System Engineer specializing in robust industrial software solutions, register-level debugging, and offline edge computing.</p>
   </div>
 
-  <div class="terminal" id="about">
+  <div class="terminal">
     <div class="terminal-header">
       <span class="mac-r"></span><span class="mac-y"></span><span class="mac-g"></span>
     </div>
-    <div class="terminal-body">
-      <p><span class="cmd">vm@engineering:~$</span> cat profile.txt</p>
-      <br>
-      <p><span class="terminal-green">NAME:</span> Vaibhav Muneshwar</p>
-      <p><span class="terminal-green">ROLE:</span> R&D System Engineer @ UEPL</p>
-      <p><span class="terminal-green">EDU:</span> MS & BS Electronic Science</p>
-      <p><span class="terminal-green">CORE_FOCUS:</span> Hardware-Software synchronization, register-level debugging, and RTOS task management.</p>
-      <br>
-      <p><span class="cmd">vm@engineering:~$</span> ./load_objective.sh</p>
-      <p class="string">"Building deployable, offline, and secure embedded systems. Moving beyond simulation to silicon."</p>
-      <span class="cmd" style="animation: blink 1s infinite">_</span>
-    </div>
+    <div class="terminal-body" id="term-text">
+      </div>
   </div>
 </section>
 
 <section id="projects">
-  <h2 class="section-title">Hardware Architecture & Deployments</h2>
+  <h2 class="section-title">>_ HARDWARE_DEPLOYMENTS</h2>
   
-  <div class="bento-grid">
-    <div class="bento-card card-feature">
-      <h3>🌱 JeevaTraksha (5G Hackathon Shortlist)</h3>
-      <p>Embedded AI for multi-crop disease diagnosis. Conceptualized and engineered a low-cost, strictly offline edge system providing sub-1.5 second inference times.</p>
-      <div class="tech-stack">
-        <span class="tech-tag">Raspberry Pi</span>
-        <span class="tech-tag">MATLAB</span>
-        <span class="tech-tag">MobileNetV2</span>
-        <span class="tech-tag">Edge AI</span>
-      </div>
-    </div>
-
-    <div class="bento-card">
-      <h3>🔒 Hardware-Backed IoT Dashboard</h3>
-      <p>Engineered an impenetrable security layer utilizing AES-256-GCM encryption, secure key generation, and digital signatures for data integrity.</p>
-      <div class="tech-stack">
-        <span class="tech-tag">ESP32</span>
-        <span class="tech-tag">AES-256-GCM</span>
-        <span class="tech-tag">C/C++</span>
-      </div>
-    </div>
-
-    <div class="bento-card">
-      <h3>🚗 Vehicle Infotainment Prototype</h3>
-      <p>Architected a high-fidelity data transmission system integrating CAN protocols for real-time vehicular telemetry.</p>
-      <div class="tech-stack">
-        <span class="tech-tag">ARM Cortex-M4</span>
-        <span class="tech-tag">CAN Bus</span>
-        <span class="tech-tag">FreeRTOS</span>
-      </div>
-    </div>
-
-    <div class="bento-card">
-      <h3>📡 Offline Emergency Transit Logic</h3>
-      <p>Designed a transmitter-receiver logic architecture utilizing LoRa to autonomously manage traffic signals for emergency vehicle routing.</p>
-      <div class="tech-stack">
-        <span class="tech-tag">LoRaWAN</span>
-        <span class="tech-tag">SPI Interfacing</span>
-        <span class="tech-tag">Logic Design</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="skills">
-  <h2 class="section-title">Technical Toolchain</h2>
-  <div class="skills-container">
-    <div class="skill-pill">FreeRTOS</div>
-    <div class="skill-pill">ARM Cortex-M (STM32)</div>
-    <div class="skill-pill">ESP32 / ESP-IDF</div>
-    <div class="skill-pill">C / C++</div>
-    <div class="skill-pill">Parallel RGB TFT Mapping</div>
-    <div class="skill-pill">LoRa Comm Protocols</div>
-    <div class="skill-pill">Oscilloscopes & Logic Analyzers</div>
-    <div class="skill-pill">Hardware AES Encryption</div>
-  </div>
-</section>
-
-<section id="contact">
-  <h2 class="section-title">Establish Connection</h2>
-  
-  <div class="bento-card" style="text-align: center; padding: 60px 20px; border-color: rgba(0, 255, 204, 0.2);">
-    <h3 style="font-size: 28px; color: var(--accent-primary); margin-bottom: 15px;">Ready to build something robust?</h3>
-    <p style="font-size: 16px; max-width: 500px; margin: 0 auto 30px auto;">
-      Whether it's discussing the transition to 2nm chip technology, troubleshooting an RTOS task, or collaborating on a new R&D prototype, my inbox is open.
-    </p>
+  <div class="bento-grid" id="cards-container">
     
-    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-      <a href="mailto:your-email@gmail.com" class="btn btn-primary">Ping: Email</a>
-      <a href="https://linkedin.com/in/yourprofile" target="_blank" class="btn btn-outline">Access: LinkedIn</a>
-      <a href="https://github.com/yourusername" target="_blank" class="btn btn-outline">Fetch: GitHub</a>
+    <div class="interactive-card card-feature">
+      <div class="card-content">
+        <h3>🌱 JeevaTraksha (5G Hackathon Shortlist)</h3>
+        <p>Architected an embedded AI edge system for multi-crop disease diagnosis. Developed for offline use with a sub-1.5 second inference turnaround directly on silicon.</p>
+        <div class="tech-stack">
+          <span class="tech-tag">Raspberry Pi</span><span class="tech-tag">MATLAB</span>
+          <span class="tech-tag">MobileNetV2</span><span class="tech-tag">Edge AI</span>
+        </div>
+      </div>
     </div>
+
+    <div class="interactive-card">
+      <div class="card-content">
+        <h3>🔒 Hardware-Backed Security Layer</h3>
+        <p>Engineered an impregnable IoT dashboard using AES-256-GCM encryption, digital signatures, and secure key generation.</p>
+        <div class="tech-stack">
+          <span class="tech-tag">ESP32-S3</span><span class="tech-tag">AES-256</span><span class="tech-tag">C/C++</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="interactive-card">
+      <div class="card-content">
+        <h3>🚗 Vehicle Infotainment Prototype</h3>
+        <p>Designed a real-time data transmission prototype utilizing CAN protocols to process and display vehicle telemetry.</p>
+        <div class="tech-stack">
+          <span class="tech-tag">ARM Cortex-M4</span><span class="tech-tag">CAN Bus</span><span class="tech-tag">FreeRTOS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="interactive-card">
+      <div class="card-content">
+        <h3>📡 Emergency Transit Logic</h3>
+        <p>Conceptualized an offline transmitter-receiver architecture via LoRa to autonomously override traffic signals for emergency routing.</p>
+        <div class="tech-stack">
+          <span class="tech-tag">LoRaWAN</span><span class="tech-tag">SPI</span><span class="tech-tag">Logic Design</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
-  
+
+<section id="sys-modules">
+  <div class="dashboard-row">
+    
+    <div>
+      <h2 class="section-title">>_ TECH_STACK</h2>
+      <div class="interactive-card" style="height: calc(100% - 60px);">
+        <div class="card-content">
+          <ul class="module-list">
+            <li>FreeRTOS Task Mgmt</li>
+            <li>ARM Cortex-M (STM32)</li>
+            <li>ESP32 / ESP-IDF</li>
+            <li>C / C++</li>
+            <li>Parallel RGB TFT Displays</li>
+            <li>Hardware AES Encryption</li>
+            <li>Logic Analyzers & Oscilloscopes</li>
+            <li>SPI / I2C / UART / CAN</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="section-title">>_ COMM_NODE</h2>
+      <div class="interactive-card" style="height: calc(100% - 60px);">
+        <div class="card-content">
+          <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">
+            Connection protocol open. Available for R&D collaborations, 2nm transition discussions, or complex firmware troubleshooting.
+          </p>
+          <div class="comm-links">
+            <a href="mailto:your-email@gmail.com" class="comm-btn">
+              <span>[INITIATE] Email</span> <span class="arrow">→</span>
+            </a>
+            <a href="https://linkedin.com/in/yourprofile" target="_blank" class="comm-btn">
+              <span>[ACCESS] LinkedIn</span> <span class="arrow">→</span>
+            </a>
+            <a href="https://github.com/yourusername" target="_blank" class="comm-btn">
+              <span>[FETCH] GitHub</span> <span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <footer>
-  <p>SYSTEM UPTIME: ∞ // © 2026 VAIBHAV MUNESHWAR. ALL SYSTEMS NOMINAL.</p>
+  <p>SYSTEM UPTIME: <span id="uptime">00:00:00</span> // VAIBHAV MUNESHWAR © 2026</p>
 </footer>
+
+<script>
+  /* 1. BOOT SEQUENCE LOGIC */
+  const bootLogs = [
+    "INIT BOOT SEQUENCE...",
+    "MOUNTING ROOT FS..... [OK]",
+    "LOADING FreeRTOS..... [OK]",
+    "CHECKING MEMORY...... 2048MB CLR",
+    "VERIFYING AES KEYS... SECURE",
+    "STARTING UI NODE..... DONE"
+  ];
+  
+  const bootDiv = document.getElementById("boot-logs");
+  let delay = 0;
+  
+  bootLogs.forEach((log, index) => {
+    setTimeout(() => {
+      const p = document.createElement("p");
+      p.className = "log-line";
+      p.innerText = "> " + log;
+      bootDiv.appendChild(p);
+      setTimeout(() => p.style.opacity = 1, 50);
+    }, delay);
+    delay += 300 + Math.random() * 200; // Randomize boot typing speed
+  });
+
+  setTimeout(() => {
+    document.getElementById("boot-screen").style.opacity = 0;
+    setTimeout(() => document.getElementById("boot-screen").style.display = "none", 500);
+    startTerminalTyping();
+  }, delay + 600);
+
+  /* 2. TERMINAL TYPING LOGIC */
+  const termLines = [
+    "<span class='cmd'>vm@engineering:~$</span> ./load_profile.sh",
+    "<br><span style='color:#22c55e'>NAME:</span> Vaibhav Muneshwar",
+    "<span style='color:#22c55e'>ROLE:</span> R&D System Engineer @ UEPL",
+    "<span style='color:#22c55e'>EDU:</span> MS Electronic Science, S.P. Pune Univ",
+    "<br><span class='cmd'>vm@engineering:~$</span> cat current_focus.txt",
+    "<span style='color:#ce9178'>\"Moving beyond simulation to silicon.\"</span><br>"
+  ];
+
+  function startTerminalTyping() {
+    const termDiv = document.getElementById("term-text");
+    let lineIndex = 0;
+    
+    function typeLine() {
+      if(lineIndex < termLines.length) {
+        termDiv.innerHTML += termLines[lineIndex] + "<br>";
+        lineIndex++;
+        setTimeout(typeLine, 400);
+      } else {
+        termDiv.innerHTML += "<span class='cmd'>vm@engineering:~$</span> <span class='cursor'></span>";
+      }
+    }
+    typeLine();
+  }
+
+  /* 3. MOUSE TRACKING GLOW LOGIC */
+  document.getElementById("cards-container").onmousemove = e => {
+    for(const card of document.getElementsByClassName("interactive-card")) {
+      const rect = card.getBoundingClientRect(),
+            x = e.clientX - rect.left,
+            y = e.clientY - rect.top;
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    }
+  };
+  
+  // Also apply to dashboard row
+  document.querySelector(".dashboard-row").onmousemove = e => {
+    for(const card of document.querySelectorAll(".dashboard-row .interactive-card")) {
+      const rect = card.getBoundingClientRect(),
+            x = e.clientX - rect.left,
+            y = e.clientY - rect.top;
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    }
+  };
+
+  /* 4. UPTIME COUNTER */
+  let seconds = 0;
+  setInterval(() => {
+    seconds++;
+    const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+    const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+    const s = String(seconds % 60).padStart(2, '0');
+    document.getElementById("uptime").innerText = `${h}:${m}:${s}`;
+  }, 1000);
+</script>
 
 </body>
 </html>
