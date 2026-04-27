@@ -197,8 +197,14 @@
 
 <section class="hero fade-in">
   <span class="tagline">R&D System Engineer</span>
-  <h1>Delivering robust industrial software solutions.</h1>
-  <p>Bridging the gap between simulation and silicon. I architect intelligent embedded systems—focusing on RTOS, hardware-software synchronization, and deployable edge computing in harsh environments.</p>
+  <h1>Engineering embedded systems that move intelligent code onto <span style="color: var(--accent-color);">real-world silicon.</span></h1>
+  <p>
+  I am an R&D Engineer who spends most of my time in the space between the datasheet 
+  and the debugger. I specialize in writing stable firmware for 
+  <span class="mono" style="font-size: 0.9em; color: var(--accent-color);">ARM Cortex-M</span> 
+  and <span class="mono" style="font-size: 0.9em; color: var(--accent-color);">ESP32</span> 
+  platforms, focusing on real-time task management and hardware reliability.
+</p>
   
   <div style="display: flex; gap: 16px; flex-wrap: wrap;">
     <a href="#work" class="btn btn-primary">View Deployments</a>
@@ -212,37 +218,41 @@
 <section id="about" class="fade-in">
   <div class="section-header">
     <h2>Engineering Philosophy</h2>
-    <p>Moving beyond simulation to build deployable, silicon-level solutions.</p>
+    <p>Stability over simulation. Reliability over buzzwords.</p>
   </div>
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center;">
+  <div style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); display: grid; gap: 40px; align-items: start;">
     
     <div>
       <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 16px;">
-        I am an R&D System Engineer obsessed with the intersection of low-level hardware and intelligent firmware. My work is rooted in the belief that software is only as robust as the silicon it runs on.
+        In embedded systems, the simulation almost always works. The real challenge starts when the code meets the silicon and the hardware behaves unpredictably.
       </p>
       <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 16px;">
-        Whether it is resolving strict RGB565 bit-alignment for parallel TFT displays, securing IoT nodes with hardware-accelerated AES-256, or deploying edge AI for agricultural diagnostics, I prioritize deterministic performance, memory safety, and real-world reliability.
+        My approach is built on the reality of the workbench. Whether I'm tracking down a hanging I2C bus, debugging bit-alignment on a high-speed display bus, or optimizing FreeRTOS task priorities to prevent race conditions, I focus on the "why" behind the failure. 
       </p>
       <p style="color: var(--text-secondary); font-size: 16px;">
-        I don't just write code; I synchronize it with the physical world using logic analyzers, oscilloscopes, and precise register-level debugging.
+        I believe that a system isn't "finished" when the code compiles; it’s finished when it has survived stress testing in the field. I rely on logic analyzers and oscilloscopes as much as my IDE to ensure that what I’ve built is actually stable.
       </p>
     </div>
     
-    <div class="card" style="padding: 30px; margin: 0;">
-      <h3 style="margin-bottom: 20px; font-family: 'Fira Code', monospace; font-size: 14px; color: var(--accent-color); letter-spacing: 1px;">// SYSTEM_SPECS</h3>
-      <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px; color: var(--text-secondary); font-size: 14px;">
-        <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
-          <strong style="color: var(--text-primary); font-weight: 600;">Firmware & RTOS</strong> <span>FreeRTOS, C/C++</span>
+    <div class="card" style="padding: 30px; margin: 0; background: var(--bg-color); border-style: dashed;">
+      <h3 style="margin-bottom: 20px; font-family: 'Fira Code', monospace; font-size: 14px; color: var(--accent-color); letter-spacing: 1px;">// TECHNICAL_REALITIES</h3>
+      <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px; color: var(--text-secondary); font-size: 14px;">
+        <li style="display: flex; align-items: flex-start; gap: 10px;">
+          <span style="color: var(--accent-color);">▶</span> 
+          <span><strong>Register-Level Debugging:</strong> Solving issues where the abstraction layer fails.</span>
         </li>
-        <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
-          <strong style="color: var(--text-primary); font-weight: 600;">Microcontrollers</strong> <span>ARM Cortex-M, ESP32</span>
+        <li style="display: flex; align-items: flex-start; gap: 10px;">
+          <span style="color: var(--accent-color);">▶</span> 
+          <span><strong>Timing & Synchronization:</strong> Managing real-time constraints in RTOS environments.</span>
         </li>
-        <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
-          <strong style="color: var(--text-primary); font-weight: 600;">Hardware Integ.</strong> <span>SPI, I2C, CAN, LoRa</span>
+        <li style="display: flex; align-items: flex-start; gap: 10px;">
+          <span style="color: var(--accent-color);">▶</span> 
+          <span><strong>Physical Verification:</strong> Using Scopes and Analyzers to verify hardware-software timing.</span>
         </li>
-        <li style="display: flex; justify-content: space-between; padding-bottom: 4px;">
-          <strong style="color: var(--text-primary); font-weight: 600;">Diagnostics</strong> <span>Logic Analyzers, Scopes</span>
+        <li style="display: flex; align-items: flex-start; gap: 10px;">
+          <span style="color: var(--accent-color);">▶</span> 
+          <span><strong>Edge Security:</strong> Implementing AES-256 and digital signatures directly on the MCU.</span>
         </li>
       </ul>
     </div>
@@ -252,7 +262,7 @@
 
 <section id="experience" class="fade-in">
   <div class="section-header">
-    <h2>Career & Trajectory</h2>
+    <h2>Academics & Career</h2>
     <p>Professional experience and academic foundations.</p>
   </div>
   
@@ -272,7 +282,7 @@
     <div class="timeline-item fade-in">
       <div class="timeline-date">FEB 2026 | JUN 2024</div>
       <div class="timeline-title">Academic Qualifications</div>
-      <div class="timeline-desc">Prepared for GATE ECE (Feb 2026). Qualified UGC-NET via NTA (June 2024). Hold an MS in Electronic Science from S.P. Pune University and a BS from Fergusson College.</div>
+      <div class="timeline-desc">Qualified UGC-NET via NTA (June 2024). Hold an MS in Electronic Science from S.P. Pune University and a BS from Fergusson College.</div>
     </div>
   </div>
 </section>
@@ -285,21 +295,21 @@
 
   <div class="grid">
     <div class="card">
-      <h3>🌱 JeevaTraksha (Edge AI)</h3>
+      <h3> JeevaTraksha (Edge AI)</h3>
       <p>A low-cost, offline AI-powered system detecting plant leaf diseases for local agriculture. Provides real-time diagnosis in sub-1.5 seconds.</p>
       <div class="tags"><span class="tag">Raspberry Pi</span><span class="tag">MATLAB</span><span class="tag">MobileNetV2</span></div>
       <button class="btn btn-outline" style="width: 100%;" onclick="openModal('modal-1')">View Details</button>
     </div>
 
     <div class="card">
-      <h3>🔒 Hardware-Backed Security</h3>
+      <h3> Hardware-Backed Security</h3>
       <p>Engineered a highly secure layer using AES-256-GCM encryption, digital signatures, and secure key generation for an IoT dashboard.</p>
       <div class="tags"><span class="tag">ESP32-S3</span><span class="tag">AES-256</span><span class="tag">C/C++</span></div>
       <button class="btn btn-outline" style="width: 100%;" onclick="openModal('modal-2')">View Details</button>
     </div>
 
     <div class="card">
-      <h3>📡 LoRa Emergency Transit</h3>
+      <h3> LoRa Emergency Transit</h3>
       <p>Conceptualized an offline transmitter-receiver architecture to autonomously manage and override traffic signals for emergency vehicles.</p>
       <div class="tags"><span class="tag">LoRaWAN</span><span class="tag">SPI Comm</span><span class="tag">Logic Design</span></div>
       <button class="btn btn-outline" style="width: 100%;" onclick="openModal('modal-3')">View Details</button>
